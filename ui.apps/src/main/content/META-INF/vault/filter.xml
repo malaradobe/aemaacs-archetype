@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/larasoft/clientlibs"/>
+    <filter root="/apps/larasoft/components"/>
+    <filter root="/apps/larasoft/i18n"/>
+    <filter root="/apps/msm/larasoft_blueprint" mode="merge"/>
+</workspaceFilter>

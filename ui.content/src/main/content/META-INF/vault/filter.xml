@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/larasoft" mode="merge"/>
+    <filter root="/content/larasoft" mode="merge"/>
+    <filter root="/content/dam/larasoft" mode="merge">
+        <exclude pattern="/content/dam/larasoft(/.*)?"/>
+        <include pattern="/content/dam/larasoft/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/larasoft/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/larasoft" mode="merge"/>
+</workspaceFilter>
