@@ -3,5 +3,6 @@
     <filter root="/apps/larasoft/clientlibs"/>
     <filter root="/apps/larasoft/components"/>
     <filter root="/apps/larasoft/i18n"/>
+    <filter root="/apps/larasoft/config"/>
     <filter root="/apps/msm/larasoft_blueprint" mode="merge"/>
 </workspaceFilter>
