@@ -8,4 +8,6 @@
     </filter>
     <filter root="/content/dam/larasoft/asset.jpg" mode="merge"/>
     <filter root="/content/experience-fragments/larasoft" mode="merge"/>
+    <filter root="/etc/pipes" />
+    <filter root="/system/sling/permissions/pipes" />
 </workspaceFilter>

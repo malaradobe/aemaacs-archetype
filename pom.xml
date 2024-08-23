@@ -152,8 +152,9 @@
     
     
     <componentGroupName>LaraSoft</componentGroupName>
-                
   
+    <sling-query.version>4.0.4</sling-query.version>
+    <sling-pipes.version>4.5.0</sling-pipes.version>
   
   </properties>
           
@@ -2223,7 +2224,16 @@ Bundle-DocURL:
       
       </dependency>
                           
-    
+      <dependency>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>org.apache.sling.query</artifactId>
+          <version>${sling-query.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>org.apache.sling.pipes</artifactId>
+          <version>${sling-pipes.version}</version>
+      </dependency>
     
     </dependencies>
                 
