@@ -56,6 +56,8 @@ class HelloWorldModelTest {
 
     @Test
     void testGetMessage() throws Exception {
+        // Add a delay of 15 minutes (900000 milliseconds)
+        Thread.sleep(900000);
         // some very basic junit tests
         String msg = hello.getMessage();
         assertNotNull(msg);
