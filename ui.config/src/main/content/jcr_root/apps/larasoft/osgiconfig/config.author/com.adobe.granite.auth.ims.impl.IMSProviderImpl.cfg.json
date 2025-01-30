@@ -1,0 +1,9 @@
+{
+    "oauth.provider.ims.authorization.url": "https://ims-na1.adobelogin.com/ims/authorize/v1",
+    "oauth.provider.ims.token.url": "https://ims-na1.adobelogin.com/ims/token/v1",
+    "oauth.provider.ims.profile.url": "https://ims-na1.adobelogin.com/ims/profile/v1",
+    "oauth.provider.ims.validate.token.url": "https://ims-na1.adobelogin.com/ims/validate_token/v1",
+    "oauth.provider.ims.service.token.client.secret": "$[secret:ims_service_client_secret]",
+    "oauth.provider.ims.service.token": "$[secret:ims_service_token]",
+    "ims.org.ref": "CDA11DC661266AB70A495F8B@AdobeOrg"
+}

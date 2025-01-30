@@ -4,7 +4,7 @@ module.exports =  {
       'plugin:@typescript-eslint/recommended',  // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     ],
     parserOptions:  {
-      ecmaVersion:  2018,  // Allows for the parsing of modern ECMAScript features
+      ecmaVersion:  2024,  // Allows for the parsing of modern ECMAScript features
       sourceType:  'module',  // Allows for the use of imports
     },
     rules:  {
