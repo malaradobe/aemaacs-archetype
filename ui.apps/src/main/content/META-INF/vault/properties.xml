@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>FileVault Package Properties</comment>
+<entry key="createdBy">admin</entry>
+<entry key="generator">org.apache.jackrabbit.vault:3.7.0</entry>
+<entry key="name">aemaacs-ui-apps</entry>
+<entry key="group">com.aemaacs</entry>
+<entry key="version">1.0.0-SNAPSHOT</entry>
+<entry key="noIntermediateSaves">true</entry>
+<entry key="allowIndexDefinitions">true</entry>
+</properties>

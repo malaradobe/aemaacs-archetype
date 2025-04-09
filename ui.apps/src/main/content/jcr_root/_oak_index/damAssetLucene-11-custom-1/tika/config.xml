@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+    <property name="tika.maxExtractLength" value="50000"/>
+    <property name="tika.parsers">
+        <value>org.apache.tika.parser.DefaultParser</value>
+    </property>
+    <property name="tika.detectors">
+        <value>org.apache.tika.detect.DefaultDetector</value>
+    </property>
+    <property name="tika.service.loader">
+        <value>org.apache.tika.parser.Parser</value>
+        <value>org.apache.tika.detector.Detector</value>
+    </property>
+    <property name="tika.service.loader.ignoreInitProblems" value="true"/>
+</properties> 
