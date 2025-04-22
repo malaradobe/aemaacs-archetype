@@ -1,0 +1,3 @@
+{
+    "activationMode":"$[env:ACLTOOL_STARTUP_HOOK;default=ALWAYS]"
+}
