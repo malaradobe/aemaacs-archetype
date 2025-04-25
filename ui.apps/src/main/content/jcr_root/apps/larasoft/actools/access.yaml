@@ -1,27 +1,23 @@
 - group_config:
     - larasoft-dam-librarian:
-
        - name: larasoft-dam-librarian
          description: Oversees metadata compliance, approves metadata, maintains taxonomy standards
          isMemberOf: dam-users, workflow-editors
          path: /home/groups/larasoft
          
     - larasoft-creative-teams:
-
        - name: larasoft-creative-teams
          description: Produces and uploads new assets to the folder
          isMemberOf: dam-users
          path: /home/groups/larasoft
 
     - larasoft-asset-collaborators:
-
        - name: larasoft-asset-collaborators
          description: Collaborates on assets (edits, moves, renames, provides input)
          isMemberOf: dam-users
          path: /home/groups/larasoft
 
     - larasoft-asset-approvers:
-
        - name: larasoft-asset-approvers
          description: Final approval for production use (quality, compliance)
          isMemberOf: dam-users
@@ -30,42 +26,60 @@
 - user_config:
 
     - conf-write-service-user:
-
        - name: conf-write-service-user
          description: System user for Dynamic Media Config update
          isSystemUser: True
          path: /home/users/system/larasoft
 
     - internal-content:
-
        - name: internal-content
          description: System user created to read content paths using a service session 
          isSystemUser: True
          path: /home/users/system/larasoft
-         
+
+    - librarian:
+       - name: Librarian User
+         isMemberOf: larasoft-dam-librarian
+         password: secret
+         path: /home/users/larasoft
+
+    - creative:
+       - name: Creative User
+         isMemberOf: larasoft-creative-teams
+         password: secret
+         path: /home/users/larasoft
+
+    - collaborator:
+       - name: Collaborator User
+         isMemberOf: larasoft-asset-collaborators
+         password: secret
+         path: /home/users/larasoft
+
+    - approver:
+       - name: Approver User
+         isMemberOf: larasoft-asset-approvers
+         password: secret 
+         path: /home/users/larasoft
 
 - ace_config:
 
     - larasoft-dam-librarian:
-
-       - path: /content/dam/larasoft
+       - path: /content/dam/larasoft/new
          permission: allow
          privileges: jcr:read,jcr:write,jcr:removeNode,jcr:versionManagement,jcr:lockManagement,jcr:modifyProperties,crx:replicate
 
     - larasoft-creative-teams:
-
-       - path: /content/dam/larasoft/new
+       - path: /content/dam/larasoft/creative,/content/dam/larasoft/new
          permission: allow
          privileges: jcr:read,jcr:write,jcr:removeNode,jcr:versionManagement,jcr:lockManagement,jcr:modifyProperties
 
     - larasoft-asset-collaborators:
-
-       - path: /content/dam/larasoft
+       - path: /content/dam/larasoft/new
          permission: allow
          privileges: jcr:read,jcr:write,jcr:versionManagement,jcr:lockManagement,jcr:modifyProperties
 
     - larasoft-asset-approvers:
-
-       - path: /content/dam/larasoft
+       - path: /content/dam/larasoft/new,/content/dam/larasoft/approved
          permission: allow
          privileges: jcr:read,jcr:write,crx:replicate
+

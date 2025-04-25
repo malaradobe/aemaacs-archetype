@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:isCheckedOut="{Boolean}false"
+    jcr:primaryType="cq:WorkflowModel"
+    jcr:uuid="d8007804-d50d-4fac-96d6-ae319bef1fe4"
+    sling:resourceType="cq/workflow/components/model"
+    description="No Description"
+    title="LaraSoft New Asset Approval">
+    <metaData
+        cq:generatingPage="/conf/global/settings/workflow/models/larasoft-new-asset-approval/jcr:content"
+        cq:lastModified="{Long}1745510228971"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        lastSynced="{Date}2025-04-24T08:57:08.949-07:00"/>
+    <nodes jcr:primaryType="nt:unstructured">
+        <node0
+            jcr:primaryType="cq:WorkflowNode"
+            title="Start"
+            type="START">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0>
+        <node1
+            jcr:primaryType="cq:WorkflowNode"
+            description="Asset Metadata Approver reviews quality and compliance"
+            title="Asset Metadata Review"
+            type="PARTICIPANT">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="larasoft-dam-librarian"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
+            description="Asset Approver reviews quality and compliance"
+            title="Asset Review"
+            type="PARTICIPANT">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="larasoft-asset-approvers"/>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
+            title="Move Asset to final folder"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.larasoft.core.services.MoveAssetWorkflowProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node3>
+        <node4
+            jcr:primaryType="cq:WorkflowNode"
+            title="End"
+            type="END">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node4>
+    </nodes>
+    <transitions jcr:primaryType="nt:unstructured">
+        <node0_x0023_node1
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node0"
+            rule="\0"
+            to="node1">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0_x0023_node1>
+        <node1_x0023_node2
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node1"
+            rule="\0"
+            to="node2">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node1_x0023_node2>
+        <node2_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            rule="\0"
+            to="node3">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_x0023_node3>
+        <node3_x0023_node4
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node3"
+            to="node4">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3_x0023_node4>
+    </transitions>
+</jcr:root>

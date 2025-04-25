@@ -8,4 +8,7 @@
     </filter>
     <filter root="/content/dam/larasoft/asset.jpg" mode="merge"/>
     <filter root="/content/experience-fragments/larasoft" mode="merge"/>
+    <filter root="/conf/global/settings/workflow" mode="merge"/>
+    <filter root="/var/workflow/models/larasoft-asset-approval-workflow"/>
+    <filter root="/var/workflow/models/larasoft-new-asset-approval"/>
 </workspaceFilter>
