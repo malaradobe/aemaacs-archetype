@@ -4,7 +4,8 @@
     <jcr:content
         cq:conf="/conf/larasoft"
         jcr:primaryType="nt:unstructured"
-        jcr:title="LaraSoft">
+        jcr:title="LaraSoft"
+        metadataSchema="/conf/global/settings/dam/adminui-extension/metadataschema/larasoft">
         <folderThumbnail/>
     </jcr:content>
     <asset.jpg/>
