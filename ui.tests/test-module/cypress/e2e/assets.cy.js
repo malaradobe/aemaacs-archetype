@@ -48,8 +48,7 @@ describe('AEM Assets', () => {
         cy.get('dam-chunkfileupload.dam-ChunkFileUpload > input').first().selectFile(localPath, {force: true})
 
         // rename image
-        cy.get('input#dam-asset-upload-rename-input').clear()
-        cy.type(remoteImageName, {force: true});
+        cy.get('input#dam-asset-upload-rename-input').clear().type(remoteImageName, {force: true});
 
         // Press the upload button.
         cy.get('coral-dialog.is-open coral-dialog-footer [variant="primary"]').click({force: true});

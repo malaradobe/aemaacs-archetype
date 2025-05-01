@@ -39,6 +39,7 @@
         <AEM_AUTHOR_URL>http://localhost:4502</AEM_AUTHOR_URL>
         <AEM_AUTHOR_USERNAME>admin</AEM_AUTHOR_USERNAME>
         <AEM_AUTHOR_PASSWORD>admin</AEM_AUTHOR_PASSWORD>
+        <AEM_PUBLISH_URL>http://localhost:4503</AEM_PUBLISH_URL>
         <AEM_PUBLISH_USERNAME>admin</AEM_PUBLISH_USERNAME>
         <AEM_PUBLISH_PASSWORD>admin</AEM_PUBLISH_PASSWORD>
     </properties>
@@ -140,6 +141,7 @@
         <profile>
             <id>ui-tests-docker-build</id>
             <activation>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -190,6 +192,7 @@
         <profile>
             <id>ui-tests-docker-execution</id>
             <activation>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
