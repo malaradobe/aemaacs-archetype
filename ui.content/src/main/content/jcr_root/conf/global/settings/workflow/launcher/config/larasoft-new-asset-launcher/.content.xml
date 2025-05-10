@@ -12,4 +12,4 @@
     glob="/content/dam/larasoft/new"
     nodetype="dam:Asset"
     runModes="author"
-    workflow="/var/workflow/models/larasoft-new-asset-approval"/>
+    workflow="/var/workflow/models/larasoft-asset-approval"/>
