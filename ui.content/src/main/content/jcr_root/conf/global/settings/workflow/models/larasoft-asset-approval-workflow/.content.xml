@@ -8,7 +8,7 @@
         cq:template="/libs/cq/workflow/templates/model"
         jcr:description="Workflow for managing assets uploaded by a Creative Agency"
         jcr:primaryType="cq:PageContent"
-        jcr:title="LaraSoft New Asset Approval"
+        jcr:title="LaraSoft Asset Approval"
         sling:resourceType="cq/workflow/components/pages/model">
         <flow
             jcr:primaryType="nt:unstructured"

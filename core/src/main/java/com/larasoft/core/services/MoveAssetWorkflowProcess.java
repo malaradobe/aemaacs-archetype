@@ -1,84 +1,99 @@
 package com.larasoft.core.services;
 
-import org.apache.commons.lang3.StringUtils;
-import com.adobe.granite.workflow.WorkflowException;
-import com.adobe.granite.workflow.WorkflowSession;
-import com.adobe.granite.workflow.exec.WorkItem;
-import com.adobe.granite.workflow.exec.WorkflowProcess;
-import com.adobe.granite.workflow.metadata.MetaDataMap;
-import com.adobe.granite.workflow.exec.WorkflowData;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.jcr.Session;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.propertytypes.ServiceDescription;
-import org.osgi.framework.Constants;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(
-    service = WorkflowProcess.class, 
-    property = {
-        Constants.SERVICE_DESCRIPTION + "=Move Asset Workflow Process",
-        Constants.SERVICE_VENDOR + "=Adobe Systems",
-        "process.label=Move Asset Workflow Process"
+import com.day.cq.dam.api.Asset;
+import com.day.cq.dam.api.AssetManager;
+import com.day.cq.workflow.WorkflowException;
+import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.WorkItem;
+import com.day.cq.workflow.exec.WorkflowProcess;
+import com.day.cq.workflow.metadata.MetaDataMap;
+
+@Component(service = WorkflowProcess.class, property = {
+    "process.label=Move Asset Workflow Process"
 })
-@ServiceDescription("Move Asset Workflow Process")
 public class MoveAssetWorkflowProcess implements WorkflowProcess {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MoveAssetWorkflowProcess.class);
-    private static final String TARGET_PATH = "/content/dam/larasoft/approved";
+    private static final Logger LOGGER = LoggerFactory.getLogger(MoveAssetWorkflowProcess.class);
+    private static final String DAM_SERVICE = "dam-service";
+
+    @Reference
+    private ResourceResolverFactory resolverFactory;
+
+    private AssetManager assetManager;
 
     @Override
-    public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap metaDataMap)
-            throws WorkflowException {
-        ResourceResolver resourceResolver = workflowSession.adaptTo(ResourceResolver.class);
-        final WorkflowData workflowData = workItem.getWorkflowData();
-        final String workflowType = workflowData.getPayloadType();
-        if (!StringUtils.equals(workflowType, "JCR_PATH")) {
-            return;
+    public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap metaDataMap) throws WorkflowException {
+        String assetPath = workItem.getWorkflowData().getPayload().toString();
+        String targetFolder = metaDataMap.get("targetFolder", String.class);
+
+        if (targetFolder == null) {
+            throw new WorkflowException("Target folder path is required");
         }
 
-        // Get the path to the JCR resource from the payload
-        final String payloadPath = workflowData.getPayload().toString();
+        Map<String, Object> authInfo = new HashMap<>();
+        authInfo.put(ResourceResolverFactory.SUBSERVICE, DAM_SERVICE);
 
-        Resource assetResource = resourceResolver.getResource(payloadPath);
-        if (assetResource != null) {
-            LOG.info("Asset resource found at path: {}", payloadPath);
-            
-            try {
-                // Get the asset name from the path
-                String assetName = assetResource.getName();
-                
-                // Create the target path
-                String targetPath = TARGET_PATH;
-                
-                // Ensure the target folder exists
-                Resource targetFolder = resourceResolver.getResource(TARGET_PATH);
-                if (targetFolder == null) {
-                    LOG.info("Creating target folder at: {}", TARGET_PATH);
-                    // Create the target folder if it doesn't exist
-                    Resource parentFolder = resourceResolver.getResource("/content/dam/larasoft");
-                    if (parentFolder == null) {
-                        throw new WorkflowException("Parent folder /content/dam/larasoft does not exist");
-                    }
-                    resourceResolver.create(parentFolder, "approved", null);
-                    resourceResolver.commit();
-                    LOG.info("Successfully created target folder at: {}", TARGET_PATH);
-                }
-
-                LOG.info("Moving asset from {} to {}", payloadPath, targetPath);
-                
-                // Move the asset using ResourceResolver
-                resourceResolver.move(payloadPath, targetPath);
-                resourceResolver.commit();
-                
-                LOG.info("Successfully moved asset from {} to {}", payloadPath, targetPath);
-            } catch (Exception e) {
-                LOG.error("Error moving asset: {}", e.getMessage());
-                throw new WorkflowException("Failed to move asset", e);
+        try (ResourceResolver resolver = resolverFactory.getServiceResourceResolver(authInfo)) {
+            Resource assetResource = resolver.getResource(assetPath);
+            if (assetResource == null) {
+                throw new WorkflowException("Asset not found at path: " + assetPath);
             }
-        } else {
-            LOG.error("No resource found at path: {}", payloadPath);
+
+            Asset asset = assetResource.adaptTo(Asset.class);
+            if (asset == null) {
+                throw new WorkflowException("Resource is not an asset: " + assetPath);
+            }
+
+            Resource targetFolderResource = resolver.getResource(targetFolder);
+            if (targetFolderResource == null) {
+                throw new WorkflowException("Target folder not found: " + targetFolder);
+            }
+
+            if (assetManager == null) {
+                // Get the asset manager and move the asset
+                assetManager = resolver.adaptTo(AssetManager.class);
+                if (assetManager == null) {
+                    throw new WorkflowException("Could not get AssetManager");
+                }
+            }
+
+            // Get the asset name from the path
+            String assetName = assetPath.substring(assetPath.lastIndexOf('/') + 1);
+            String targetPath = targetFolder + "/" + assetName;
+
+            // Move the asset using the JCR session
+            Session session = resolver.adaptTo(Session.class);
+            if (session == null) {
+                throw new WorkflowException("Could not get JCR Session");
+            }
+
+            session.move(assetPath, targetPath);
+            session.save();
+            LOGGER.info("Successfully moved asset from {} to {}", assetPath, targetPath);
+        } catch (Exception e) {
+            LOGGER.error("Error moving asset: {}", e.getMessage(), e);
+            throw new WorkflowException("Error moving asset: " + e.getMessage(), e);
         }
+    }
+
+    public void setResolverFactory(ResourceResolverFactory resolverFactory) {
+        this.resolverFactory = resolverFactory;
+    }
+
+    public void setAssetManager(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 }
