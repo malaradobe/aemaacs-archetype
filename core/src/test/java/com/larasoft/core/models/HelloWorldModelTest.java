@@ -43,7 +43,7 @@ class HelloWorldModelTest {
     private Resource resource;
 
     @BeforeEach
-    public void setup() throws Exception {
+    void setup() throws Exception {
 
         // prepare a page with a test resource
         page = context.create().page("/content/mypage");
@@ -55,7 +55,7 @@ class HelloWorldModelTest {
     }
 
     @Test
-    void testGetMessage() throws Exception {
+    void testGetMessage() {
         // some very basic junit tests
         String msg = hello.getMessage();
         assertNotNull(msg);
