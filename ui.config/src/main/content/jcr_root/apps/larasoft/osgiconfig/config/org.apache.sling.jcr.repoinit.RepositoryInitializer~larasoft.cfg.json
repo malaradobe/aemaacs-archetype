@@ -2,6 +2,15 @@
     "scripts": [
         "create path (sling:OrderedFolder) /content/dam/larasoft",
         "create path (nt:unstructured) /content/dam/larasoft/jcr:content",
-        "set properties on /content/dam/larasoft/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft\"\nend"
+        "create path (sling:OrderedFolder) /content/dam/larasoft/new",
+        "create path (nt:unstructured) /content/dam/larasoft/new/jcr:content",
+        "create path (sling:OrderedFolder) /content/dam/larasoft/approved",
+        "create path (nt:unstructured) /content/dam/larasoft/approved/jcr:content",
+        "create path (sling:OrderedFolder) /content/dam/larasoft/creative",
+        "create path (nt:unstructured) /content/dam/larasoft/creative/jcr:content",
+        "set properties on /content/dam/larasoft/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft\"\nend",
+        "set properties on /content/dam/larasoft/new/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft New Content\"\nend",
+        "set properties on /content/dam/larasoft/approved/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft Approved Content\"\nend",
+        "set properties on /content/dam/larasoft/creative/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft Creative Team Content\"\nend"
     ]
 }
