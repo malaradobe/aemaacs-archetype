@@ -34,8 +34,6 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
     @Reference
     private ResourceResolverFactory resolverFactory;
 
-    private AssetManager assetManager;
-
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap metaDataMap) throws WorkflowException {
         String assetPath = workItem.getWorkflowData().getPayload().toString();
@@ -81,12 +79,10 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
                 throw new WorkflowException("Target folder not found: " + targetFolder);
             }
 
+            // Get the asset manager and move the asset
+            AssetManager assetManager = resolver.adaptTo(AssetManager.class);
             if (assetManager == null) {
-                // Get the asset manager and move the asset
-                assetManager = resolver.adaptTo(AssetManager.class);
-                if (assetManager == null) {
-                    throw new WorkflowException("Could not get AssetManager");
-                }
+                throw new WorkflowException("Could not get AssetManager");
             }
 
             // Get the asset name from the path
@@ -110,9 +106,5 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
 
     public void setResolverFactory(ResourceResolverFactory resolverFactory) {
         this.resolverFactory = resolverFactory;
-    }
-
-    public void setAssetManager(AssetManager assetManager) {
-        this.assetManager = assetManager;
     }
 }

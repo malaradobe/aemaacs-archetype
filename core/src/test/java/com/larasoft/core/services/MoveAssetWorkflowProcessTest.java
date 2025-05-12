@@ -94,7 +94,6 @@ class MoveAssetWorkflowProcessTest {
         TestLoggerFactory.clear();
         fixture = new MoveAssetWorkflowProcess();
         fixture.setResolverFactory(resolverFactory);
-        fixture.setAssetManager(assetManager);
 
         logger = TestLoggerFactory.getTestLogger(fixture.getClass());
 
@@ -124,6 +123,7 @@ class MoveAssetWorkflowProcessTest {
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
         when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
 
         // Execute
         fixture.execute(workItem, workflowSession, metaDataMap);
@@ -147,9 +147,9 @@ class MoveAssetWorkflowProcessTest {
         when(resolverFactory.getServiceResourceResolver(authInfo)).thenThrow(new LoginException("Test login exception"));
 
         // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
         assertTrue(exception.getMessage().contains("Error moving asset: Test login exception"));
 
         List<LoggingEvent> events = logger.getLoggingEvents();
@@ -165,9 +165,9 @@ class MoveAssetWorkflowProcessTest {
         when(resourceResolver.getResource(ASSET_PATH)).thenReturn(null);
 
         // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
         assertEquals("Error moving asset: Asset not found at path: " + ASSET_PATH, exception.getMessage());
 
         List<LoggingEvent> events = logger.getLoggingEvents();
@@ -183,11 +183,13 @@ class MoveAssetWorkflowProcessTest {
         when(resourceResolver.getResource(ASSET_PATH)).thenReturn(assetResource);
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(null);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
+        when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
 
         // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
         assertEquals("Error moving asset: Target folder not found: " + TARGET_FOLDER, exception.getMessage());
 
         List<LoggingEvent> events = logger.getLoggingEvents();
@@ -201,11 +203,14 @@ class MoveAssetWorkflowProcessTest {
     void testExecute_MissingTargetFolder() throws WorkflowException {
         // Setup
         when(metaDataMap.get("PROCESS_ARGS", "string")).thenReturn("");
+        when(resourceResolver.getResource(ASSET_PATH)).thenReturn(assetResource);
+        when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
 
         // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
         assertEquals("Target folder path is required", exception.getMessage());
     }
 
@@ -216,11 +221,12 @@ class MoveAssetWorkflowProcessTest {
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
         when(resourceResolver.adaptTo(Session.class)).thenReturn(null);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
 
         // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
         assertEquals("Error moving asset: Could not get JCR Session", exception.getMessage());
     }
 
@@ -231,6 +237,7 @@ class MoveAssetWorkflowProcessTest {
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
         when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
         doThrow(new RepositoryException("Test exception")).when(jcrSession).move(anyString(), anyString());
 
         // Execute and verify exception
@@ -245,6 +252,9 @@ class MoveAssetWorkflowProcessTest {
         // Setup
         when(resourceResolver.getResource(ASSET_PATH)).thenReturn(assetResource);
         when(assetResource.adaptTo(Asset.class)).thenReturn(null);
+        when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
+        when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
 
         // Execute and verify exception
         WorkflowException exception = assertThrows(WorkflowException.class, () -> {
@@ -260,12 +270,13 @@ class MoveAssetWorkflowProcessTest {
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
         when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(null);
+        when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
 
         // Execute and verify exception
         WorkflowException exception = assertThrows(WorkflowException.class, () -> {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
-        assertEquals("Error moving asset: Could not get JCR Session", exception.getMessage());
+        assertEquals("Error moving asset: Could not get AssetManager", exception.getMessage());
     }
 
     @Test
@@ -275,6 +286,7 @@ class MoveAssetWorkflowProcessTest {
         when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
         when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
         when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
         doNothing().when(jcrSession).move(anyString(), anyString());
         doThrow(new RepositoryException("Failed to save session")).when(jcrSession).save();
 
@@ -295,6 +307,9 @@ class MoveAssetWorkflowProcessTest {
     void testExecute_InvalidProcessArgs() throws WorkflowException {
         // Setup
         when(metaDataMap.get("PROCESS_ARGS", "string")).thenReturn("invalid=format");
+        when(resourceResolver.getResource(ASSET_PATH)).thenReturn(assetResource);
+        when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
+        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(assetManager);
 
         // Execute and verify exception
         WorkflowException exception = assertThrows(WorkflowException.class, () -> {
@@ -313,22 +328,5 @@ class MoveAssetWorkflowProcessTest {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
         assertEquals("Arguments are not provided to this workflow process", exception.getMessage());
-    }
-
-    @Test
-    void testExecute_NullAssetManagerAdaptation() throws WorkflowException {
-        // Setup
-        fixture.setAssetManager(null); // Explicitly set assetManager to null
-        when(resourceResolver.getResource(ASSET_PATH)).thenReturn(assetResource);
-        when(assetResource.adaptTo(Asset.class)).thenReturn(asset);
-        when(resourceResolver.getResource(TARGET_FOLDER)).thenReturn(targetFolderResource);
-        when(resourceResolver.adaptTo(Session.class)).thenReturn(jcrSession);
-        when(resourceResolver.adaptTo(AssetManager.class)).thenReturn(null);
-
-        // Execute and verify exception
-        WorkflowException exception = assertThrows(WorkflowException.class, () -> 
-            fixture.execute(workItem, workflowSession, metaDataMap)
-        );
-        assertEquals("Error moving asset: Could not get AssetManager", exception.getMessage());
     }
 } 
