@@ -151,12 +151,6 @@ class MoveAssetWorkflowProcessTest {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
         assertTrue(exception.getMessage().contains("Error moving asset: Test login exception"));
-
-        List<LoggingEvent> events = logger.getLoggingEvents();
-        assertEquals(1, events.size());
-        LoggingEvent event = events.get(0);
-        assertEquals(Level.ERROR, event.getLevel());
-        assertTrue(event.getMessage().contains("Error moving asset"));
     }
 
     @Test
@@ -169,12 +163,6 @@ class MoveAssetWorkflowProcessTest {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
         assertEquals("Error moving asset: Asset not found at path: " + ASSET_PATH, exception.getMessage());
-
-        List<LoggingEvent> events = logger.getLoggingEvents();
-        assertEquals(1, events.size());
-        LoggingEvent event = events.get(0);
-        assertEquals(Level.ERROR, event.getLevel());
-        assertTrue(event.getMessage().contains("Error moving asset"));
     }
 
     @Test
@@ -191,12 +179,6 @@ class MoveAssetWorkflowProcessTest {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
         assertEquals("Error moving asset: Target folder not found: " + TARGET_FOLDER, exception.getMessage());
-
-        List<LoggingEvent> events = logger.getLoggingEvents();
-        assertEquals(1, events.size());
-        LoggingEvent event = events.get(0);
-        assertEquals(Level.ERROR, event.getLevel());
-        assertTrue(event.getMessage().contains("Error moving asset:"));
     }
 
     @Test
@@ -295,12 +277,6 @@ class MoveAssetWorkflowProcessTest {
             fixture.execute(workItem, workflowSession, metaDataMap);
         });
         assertTrue(exception.getMessage().contains("Error moving asset: Failed to save session"));
-
-        List<LoggingEvent> events = logger.getLoggingEvents();
-        assertEquals(1, events.size());
-        LoggingEvent event = events.get(0);
-        assertEquals(Level.ERROR, event.getLevel());
-        assertTrue(event.getMessage().contains("Error moving asset"));
     }
 
     @Test

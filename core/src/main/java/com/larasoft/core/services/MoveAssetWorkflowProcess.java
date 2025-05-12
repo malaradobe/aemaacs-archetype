@@ -99,7 +99,6 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
             session.save();
             LOGGER.info("Successfully moved asset from {} to {}", assetPath, targetPath);
         } catch (Exception e) {
-            LOGGER.error("Error moving asset: {}", e.getMessage(), e);
             throw new WorkflowException("Error moving asset: " + e.getMessage(), e);
         }
     }
