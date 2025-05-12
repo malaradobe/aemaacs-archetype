@@ -103,7 +103,8 @@ class MoveAssetWorkflowProcessTest {
         lenient().when(workItem.getWorkflowData()).thenReturn(workflowData);
         lenient().when(workflowData.getPayload()).thenReturn(ASSET_PATH);
         lenient().when(workItem.getMetaDataMap()).thenReturn(metaDataMap);
-        lenient().when(metaDataMap.get("targetFolder", String.class)).thenReturn(TARGET_FOLDER);
+        lenient().when(metaDataMap.containsKey("PROCESS_ARGS")).thenReturn(true);
+        lenient().when(metaDataMap.get("PROCESS_ARGS", "string")).thenReturn("targetFolder:" + TARGET_FOLDER);
 
         // Setup resolver factory mock
         Map<String, Object> authInfo = new HashMap<>();
@@ -200,7 +201,7 @@ class MoveAssetWorkflowProcessTest {
     @Test
     void testExecute_MissingTargetFolder() throws WorkflowException {
         // Setup
-        when(metaDataMap.get("targetFolder", String.class)).thenReturn(null);
+        when(metaDataMap.get("PROCESS_ARGS", "string")).thenReturn("");
 
         // Execute and verify exception
         WorkflowException exception = assertThrows(WorkflowException.class, () -> {
@@ -289,5 +290,29 @@ class MoveAssetWorkflowProcessTest {
         LoggingEvent event = events.get(0);
         assertEquals(Level.ERROR, event.getLevel());
         assertTrue(event.getMessage().contains("Error moving asset"));
+    }
+
+    @Test
+    void testExecute_InvalidProcessArgs() throws WorkflowException {
+        // Setup
+        when(metaDataMap.get("PROCESS_ARGS", "string")).thenReturn("invalid=format");
+
+        // Execute and verify exception
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
+        assertTrue(exception.getMessage().contains("Invalid process argument format"));
+    }
+
+    @Test
+    void testExecute_MissingProcessArgs() throws WorkflowException {
+        // Setup
+        when(metaDataMap.containsKey("PROCESS_ARGS")).thenReturn(false);
+
+        // Execute and verify exception
+        WorkflowException exception = assertThrows(WorkflowException.class, () -> {
+            fixture.execute(workItem, workflowSession, metaDataMap);
+        });
+        assertEquals("Arguments are not provided to this workflow process", exception.getMessage());
     }
 } 

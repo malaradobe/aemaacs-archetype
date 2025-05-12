@@ -1,0 +1,6 @@
+{
+    "service.ranking": 0,
+    "user.mapping":[
+        "larasoft.core:dam-service=[larasoft-service-user]"
+    ]
+}

@@ -28,6 +28,8 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MoveAssetWorkflowProcess.class);
     private static final String DAM_SERVICE = "dam-service";
+    public static final String TAGRET_FOLDER = "targetFolder";
+    private static final String PROCESS_ARGS = "PROCESS_ARGS";
 
     @Reference
     private ResourceResolverFactory resolverFactory;
@@ -37,11 +39,28 @@ public class MoveAssetWorkflowProcess implements WorkflowProcess {
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap metaDataMap) throws WorkflowException {
         String assetPath = workItem.getWorkflowData().getPayload().toString();
-        String targetFolder = metaDataMap.get("targetFolder", String.class);
 
-        if (targetFolder == null) {
+        if (!metaDataMap.containsKey(PROCESS_ARGS)) {
+            throw new WorkflowException("Arguments are not provided to this workflow process");
+        }
+
+        Map<String, String> processArgsMap = new HashMap<>();
+        String[] processArgs = metaDataMap.get(PROCESS_ARGS, "string").toString().split(",");
+
+        for (String wfArgs : processArgs) {
+            String[] args = wfArgs.split(":");
+            if (args.length == 2) {
+                processArgsMap.put(args[0], args[1]);
+            } else if (!wfArgs.trim().isEmpty()) {
+                throw new WorkflowException("Invalid process argument format: " + wfArgs);
+            }
+        }
+
+        if (!processArgsMap.containsKey(TAGRET_FOLDER)) {
             throw new WorkflowException("Target folder path is required");
         }
+
+        String targetFolder = processArgsMap.get(TAGRET_FOLDER);
 
         Map<String, Object> authInfo = new HashMap<>();
         authInfo.put(ResourceResolverFactory.SUBSERVICE, DAM_SERVICE);

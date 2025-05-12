@@ -44,6 +44,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.larasoft.core.services.MoveAssetWorkflowProcess"
+                PROCESS_ARGS="targetFolder:/content/dam/larasoft/approved"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node3>
         <node4

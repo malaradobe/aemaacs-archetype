@@ -61,6 +61,11 @@
          password: secret 
          path: /home/users/larasoft
 
+    - larasoft-service-user:
+        - path: /home/users/system/larasoft
+          isMemberOf: dam-users
+          isSystemUser: true
+
 - ace_config:
 
     - larasoft-dam-librarian:
@@ -82,4 +87,9 @@
        - path: /content/dam/larasoft/new,/content/dam/larasoft/approved
          permission: allow
          privileges: jcr:read,jcr:write,crx:replicate
+
+    - larasoft-service-user:
+       - path: /content/dam/larasoft
+         permission: allow
+         privileges: jcr:all
 

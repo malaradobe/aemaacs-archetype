@@ -3,13 +3,15 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/libs/settings/wcm/designs/default"
-        cq:lastModified="{Date}2025-04-22T19:13:05.198-07:00"
+        cq:lastModified="{Date}2025-05-11T12:30:30.996-07:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:description="Workflow for managing assets uploaded by a Creative Agency"
         jcr:primaryType="cq:PageContent"
-        jcr:title="LaraSoft Asset Approval"
-        sling:resourceType="cq/workflow/components/pages/model">
+        jcr:title="LaraSoft New Asset Approval"
+        sling:resourceType="cq/workflow/components/pages/model"
+        deleted="true"
+        lastSynced="{Date}2025-05-11T12:30:34.232-07:00">
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
@@ -42,7 +44,7 @@
             <process
                 jcr:created="{Date}2025-04-22T14:36:30.544-07:00"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2025-04-22T14:36:30.544-07:00"
+                jcr:lastModified="{Date}2025-05-11T12:30:30.992-07:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Move Asset to final folder"
@@ -50,6 +52,7 @@
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     PROCESS="com.larasoft.core.services.MoveAssetWorkflowProcess"
+                    PROCESS_ARGS="targetFolder:/content/dam/larasoft/approved"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
         </flow>
