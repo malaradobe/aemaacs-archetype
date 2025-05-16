@@ -1,6 +1,7 @@
 {
     "service.ranking": 0,
     "user.mapping":[
-        "larasoft.core:dam-service=[larasoft-service-user]"
+        "larasoft.core:dam-service=[larasoft-service-user]",
+        "biz.netcentric.cq.tools.accesscontroltool.bundle=[actool-service]"
     ]
 }
