@@ -77,7 +77,21 @@
                             <type>zip</type>
                             <target>/apps/larasoft-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                          <groupId>biz.netcentric.cq.tools.accesscontroltool</groupId>
+                          <artifactId>accesscontroltool-oakindex-package</artifactId>
+                          <type>zip</type>
+                          <target>/apps/larasoft-vendor-packages/application/install</target>
+                        </embedded> 
                     </embeddeds>
+                    <subPackages>
+                          <!-- Add accesscontroltool-package configuration to subPackage section of filevault-package-maven-plugin -->
+                            <subPackage>
+                              <groupId>biz.netcentric.cq.tools.accesscontroltool</groupId>
+                              <artifactId>accesscontroltool-package</artifactId>
+                              <filter>true</filter>
+                            </subPackage>
+                    </subPackages>
                 </configuration>
             </plugin>
             <plugin>

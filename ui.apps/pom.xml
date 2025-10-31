@@ -139,5 +139,18 @@
             <version>1.2.4-1.4.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Netcentric ACL Tool -->
+        <dependency>
+          <groupId>biz.netcentric.cq.tools.accesscontroltool</groupId>
+          <artifactId>accesscontroltool-package</artifactId>
+          <type>content-package</type>
+        </dependency>
+        <!-- Oak Index for netcentric ACL Tool -->
+        <dependency>
+          <groupId>biz.netcentric.cq.tools.accesscontroltool</groupId>
+          <artifactId>accesscontroltool-oakindex-package</artifactId>
+          <type>zip</type>
+        </dependency>
     </dependencies>
 </project>
