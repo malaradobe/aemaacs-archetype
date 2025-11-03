@@ -8,4 +8,5 @@
     </filter>
     <filter root="/content/dam/larasoft/asset.jpg" mode="merge"/>
     <filter root="/content/experience-fragments/larasoft" mode="merge"/>
+    <filter root="/var/workflow/models/spanish-content-approval" mode="merge"/>
 </workspaceFilter>
