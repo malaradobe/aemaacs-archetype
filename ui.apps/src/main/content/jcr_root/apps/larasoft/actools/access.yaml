@@ -31,14 +31,14 @@
 
        - name: editor-spanish
          description: Spanish content editors - can edit and publish (only approved) Spanish content under /content/larasoft/es
-         isMemberOf: contributor,workflow-users
+         isMemberOf: content-authors,workflow-users
          path: /home/groups/larasoft
 
     - reviewer-spanish:
 
        - name: reviewer-spanish
          description: Spanish content reviewers - can review, approve, reject Spanish content but cannot edit or publish
-         isMemberOf: content-authors,workflow-users
+         isMemberOf: contributor,workflow-users
          path: /home/groups/larasoft
 
 - user_config:
