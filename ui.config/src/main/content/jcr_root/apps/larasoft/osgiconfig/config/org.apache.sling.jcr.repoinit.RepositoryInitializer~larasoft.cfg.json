@@ -2,6 +2,10 @@
     "scripts": [
         "create path (sling:OrderedFolder) /content/dam/larasoft",
         "create path (nt:unstructured) /content/dam/larasoft/jcr:content",
-        "set properties on /content/dam/larasoft/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft\"\nend"
+        "set properties on /content/dam/larasoft/jcr:content\n  set cq:conf{String} to /conf/larasoft\n  set jcr:title{String} to \"LaraSoft\"\nend",
+        "create path (cq:Page) /content/larasoft",
+        "create path (cq:Page) /content/larasoft/es",
+        "create service user internal-content with path system/larasoft",
+        "set ACL for internal-content\n  allow jcr:read on /content\n  allow jcr:read on /var/workflow\nend"
     ]
 }
