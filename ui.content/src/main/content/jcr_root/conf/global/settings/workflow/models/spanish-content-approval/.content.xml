@@ -16,11 +16,8 @@
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
             <process
-                jcr:created="{Date}2025-11-05T07:28:50.608-08:00"
-                jcr:createdBy="admin"
                 jcr:description="Verify workflow is not being bypassed"
-                jcr:lastModified="{Date}2025-11-05T07:29:25.341-08:00"
-                jcr:lastModifiedBy="admin"
+
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Check Workflow State"
                 sling:resourceType="cq/workflow/components/model/process">
@@ -30,11 +27,7 @@
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
             <participant
-                jcr:created="{Date}2025-11-05T07:32:07.737-08:00"
-                jcr:createdBy="admin"
                 jcr:description="Reviewer must approve, reject, or request changes"
-                jcr:lastModified="{Date}2025-11-05T07:37:29.957-08:00"
-                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Spanish Content Review"
                 sling:resourceType="cq/workflow/components/model/participant">
@@ -47,24 +40,20 @@
                         <approve
                             jcr:primaryType="nt:unstructured"
                             label="Approve"
-                            transition="approve"/>
+                            route="node2_to_node3_approve"/>
                         <reject
                             jcr:primaryType="nt:unstructured"
                             label="Reject"
-                            transition="reject"/>
+                            route="node2_to_node4_reject"/>
                         <requestChanges
                             jcr:primaryType="nt:unstructured"
                             label="Request Changes"
-                            transition="requestChanges"/>
+                            route="node2_to_node5_requestChanges"/>
                     </workflowActions>
                 </metaData>
             </participant>
             <process_1313880425
-                jcr:created="{Date}2025-11-05T08:43:43.642-08:00"
-                jcr:createdBy="admin"
                 jcr:description="Mark content as approved - editor can now publish"
-                jcr:lastModified="{Date}2025-11-05T08:45:09.571-08:00"
-                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Mark as Approved"
                 sling:resourceType="cq/workflow/components/model/process">
@@ -74,11 +63,7 @@
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_1313880425>
             <process_513636853
-                jcr:created="{Date}2025-11-05T08:56:43.711-08:00"
-                jcr:createdBy="admin"
                 jcr:description="Send back to editor for modifications"
-                jcr:lastModified="{Date}2025-11-05T08:56:43.711-08:00"
-                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Request Changes Handler"
                 sling:resourceType="cq/workflow/components/model/process">

@@ -8,10 +8,7 @@
     title="Spanish Content Approval Workflow">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/spanish-content-approval0/jcr:content"
-        cq:lastModified="{Long}1762360684455"
-        cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
-        lastSynced="{Date}2025-11-05T08:38:04.451-08:00"
         tags="wcm"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
@@ -43,15 +40,15 @@
                     <approve
                         jcr:primaryType="nt:unstructured"
                         label="Approve"
-                        transition="approve"/>
+                        route="node2_to_node3_approve"/>
                     <reject
                         jcr:primaryType="nt:unstructured"
                         label="Reject"
-                        transition="reject"/>
+                        route="node2_to_node4_reject"/>
                     <requestChanges
                         jcr:primaryType="nt:unstructured"
                         label="Request Changes"
-                        transition="requestChanges"/>
+                        route="node2_to_node5_requestChanges"/>
                 </workflowActions>
             </metaData>
         </node2>
@@ -108,22 +105,19 @@
         <node2_to_node3_approve
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
-            to="node3"
-            rule="approve">
+            to="node3">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_to_node3_approve>
         <node2_to_node4_reject
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
-            to="node4"
-            rule="reject">
+            to="node4">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_to_node4_reject>
         <node2_to_node5_requestChanges
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
-            to="node5"
-            rule="requestChanges">
+            to="node5">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_to_node5_requestChanges>
         <node3_to_node6
