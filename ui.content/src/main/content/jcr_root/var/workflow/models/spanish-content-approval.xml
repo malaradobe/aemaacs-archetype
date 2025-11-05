@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:isCheckedOut="{Boolean}false"
+    jcr:primaryType="cq:WorkflowModel"
+    jcr:uuid="1eb0d191-4287-437d-ab10-c8f250102454"
+    sling:resourceType="cq/workflow/components/model"
+    description="Approval workflow for Spanish content under /content/larasoft/es - enforces review before publishing"
+    title="Spanish Content Approval Workflow">
+    <metaData
+        cq:generatingPage="/conf/global/settings/workflow/models/spanish-content-approval0/jcr:content"
+        cq:lastModified="{Long}1762360684455"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        lastSynced="{Date}2025-11-05T08:38:04.451-08:00"
+        tags="wcm"/>
+    <nodes jcr:primaryType="nt:unstructured">
+        <node0
+            jcr:primaryType="cq:WorkflowNode"
+            title="Start"
+            type="START">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0>
+        <node1
+            jcr:primaryType="cq:WorkflowNode"
+            title="Check Workflow State"
+            description="Verify workflow is not being bypassed"
+            type="PROCESS">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.larasoft.core.workflows.WorkflowEnforcementProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
+            title="Spanish Content Review"
+            description="Reviewer must approve, reject, or request changes"
+            type="PARTICIPANT">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="reviewer-spanish"
+                PROCESS_AUTO_ADVANCE="false">
+                <workflowActions jcr:primaryType="nt:unstructured">
+                    <approve
+                        jcr:primaryType="nt:unstructured"
+                        label="Approve"
+                        transition="approve"/>
+                    <reject
+                        jcr:primaryType="nt:unstructured"
+                        label="Reject"
+                        transition="reject"/>
+                    <requestChanges
+                        jcr:primaryType="nt:unstructured"
+                        label="Request Changes"
+                        transition="requestChanges"/>
+                </workflowActions>
+            </metaData>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
+            title="Mark as Approved"
+            description="Mark content as approved - editor can now publish"
+            type="PROCESS">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.larasoft.core.workflows.ApprovalMarkingProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node3>
+        <node4
+            jcr:primaryType="cq:WorkflowNode"
+            title="Reject Handler"
+            description="Handle rejection and notify editor"
+            type="PROCESS">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.larasoft.core.workflows.RejectionNotificationProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node4>
+        <node5
+            jcr:primaryType="cq:WorkflowNode"
+            title="Request Changes Handler"
+            description="Send back to editor for modifications"
+            type="PROCESS">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.larasoft.core.workflows.RequestChangesProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node5>
+        <node6
+            jcr:primaryType="cq:WorkflowNode"
+            title="End"
+            type="END">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node6>
+    </nodes>
+    <transitions jcr:primaryType="nt:unstructured">
+        <node0_to_node1
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node0"
+            to="node1">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0_to_node1>
+        <node1_to_node2
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node1"
+            to="node2">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node1_to_node2>
+        <node2_to_node3_approve
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node3"
+            rule="approve">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_to_node3_approve>
+        <node2_to_node4_reject
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node4"
+            rule="reject">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_to_node4_reject>
+        <node2_to_node5_requestChanges
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node5"
+            rule="requestChanges">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_to_node5_requestChanges>
+        <node3_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node3"
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3_to_node6>
+        <node4_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node4"
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node4_to_node6>
+        <node5_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node5"
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node5_to_node6>
+    </transitions>
+</jcr:root>
