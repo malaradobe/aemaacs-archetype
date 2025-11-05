@@ -8,7 +8,6 @@ import com.adobe.granite.workflow.metadata.MetaDataMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +28,6 @@ public class WorkflowEnforcementProcess implements WorkflowProcess {
     private static final String WORKFLOW_STATE_PROPERTY = "workflowState";
     private static final String WORKFLOW_ID_PROPERTY = "workflowId";
     private static final String STATE_IN_PROGRESS = "IN_PROGRESS";
-
-    @Reference
-    private WorkflowEnforcementService enforcementService;
 
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap metaDataMap) 
