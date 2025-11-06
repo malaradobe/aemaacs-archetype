@@ -4,7 +4,7 @@
     jcr:primaryType="cq:WorkflowModel"
     jcr:uuid="1eb0d191-4287-437d-ab10-c8f250102454"
     sling:resourceType="cq/workflow/components/model"
-    description="Approval workflow for Spanish content under /content/larasoft/es - enforces review before publishing"
+    description="Approval workflow for Spanish content under /content/larasoft/us/es - enforces review before publishing"
     title="Spanish Content Approval Workflow">
     <metaData
         cq:generatingPage="/conf/global/settings/workflow/models/spanish-content-approval0/jcr:content"

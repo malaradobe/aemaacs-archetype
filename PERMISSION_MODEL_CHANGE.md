@@ -104,7 +104,7 @@ Updated all three documentation files:
 ## Files Modified
 
 1. `ui.apps/src/main/content/jcr_root/apps/larasoft/actools/access.yaml`
-2. `ui.apps/src/main/content/jcr_root/conf/larasoft/settings/workflow/models/spanish-content-approval/.content.xml`
+2. `ui.content/src/main/content/jcr_root/conf/global/settings/workflow/models/spanish-content-approval/.content.xml`
 3. `core/src/main/java/com/larasoft/core/workflows/WorkflowEnforcementService.java`
 4. `core/src/test/java/com/larasoft/core/workflows/SpanishContentUserGroupTest.java`
 5. `SPANISH_CONTENT_APPROVAL_WORKFLOW.md`

@@ -55,7 +55,7 @@ class RequestChangesProcessTest {
     @Test
     void testExecute_WithFeedback_Success() throws Exception {
         // Create test page
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         Resource page = context.create().resource(pagePath,
                 "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
@@ -87,7 +87,7 @@ class RequestChangesProcessTest {
     @Test
     void testExecute_WithoutFeedback_Success() throws Exception {
         // Create test page
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         Resource page = context.create().resource(pagePath,
                 "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
@@ -118,7 +118,7 @@ class RequestChangesProcessTest {
     void testExecute_InvalidResource_ThrowsException() {
         // Mock workflow with invalid path
         when(workItem.getWorkflowData()).thenReturn(workflowData);
-        when(workflowData.getPayload()).thenReturn("/content/larasoft/es/non-existent");
+        when(workflowData.getPayload()).thenReturn("/content/larasoft/us/es/non-existent");
         when(workflowSession.adaptTo(ResourceResolver.class)).thenReturn(context.resourceResolver());
 
         // Execute process - should throw exception
@@ -130,7 +130,7 @@ class RequestChangesProcessTest {
     @Test
     void testExecute_PageWithoutContent_ThrowsException() {
         // Create test page without jcr:content
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         context.create().resource(pagePath, "jcr:primaryType", "cq:Page");
 
         // Mock workflow components

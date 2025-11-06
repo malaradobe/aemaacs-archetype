@@ -3,10 +3,10 @@
     jcr:primaryType="cq:WorkflowLauncher"
     jcr:title="Spanish Content Approval Launcher"
     condition="\0"
-    description="Automatically triggers Spanish content approval workflow for pages under /content/larasoft/es"
+    description="Automatically triggers Spanish content approval workflow for pages under /content/larasoft/us/es"
     enabled="{Boolean}true"
     eventType="1"
-    excludeList="[/content/larasoft/es/.*/(jcr:content|rep:policy)]"
-    glob="/content/larasoft/es/**"
+    excludeList="[/content/larasoft/us/es/.*/(jcr:content|rep:policy)]"
+    glob="/content/larasoft/us/es/**"
     nodetype="cq:Page"
-    workflow="/conf/global/settings/workflow/models/spanish-content-approval"/>
+    workflow="/var/workflow/models/spanish-content-approval"/>

@@ -44,7 +44,7 @@ public class WorkflowEnforcementProcess implements WorkflowProcess {
             }
             
             // Verify the path is under Spanish content
-            if (!payloadPath.startsWith("/content/larasoft/es")) {
+            if (!payloadPath.startsWith("/content/larasoft/us/es")) {
                 LOG.warn("Workflow enforcement called for non-Spanish content: {}", payloadPath);
                 return;
             }

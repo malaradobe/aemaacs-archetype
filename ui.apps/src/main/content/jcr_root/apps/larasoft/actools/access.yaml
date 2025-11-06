@@ -30,7 +30,7 @@
     - editor-spanish:
 
        - name: editor-spanish
-         description: Spanish content editors - can edit and publish (only approved) Spanish content under /content/larasoft/es
+         description: Spanish content editors - can edit and publish (only approved) Spanish content under /content/larasoft/us/es
          isMemberOf: content-authors,workflow-users
          path: /home/groups/larasoft
 
@@ -109,7 +109,7 @@
 
        # Allow read/write/replicate access to Spanish content
        # Note: Replicate is allowed but WorkflowEnforcementService will only permit publishing of APPROVED content
-       - path: /content/larasoft/es
+       - path: /content/larasoft/us/es
          permission: allow
          privileges: jcr:read,jcr:write,jcr:removeNode,jcr:versionManagement,jcr:lockManagement,jcr:modifyProperties,crx:replicate
          
@@ -126,12 +126,12 @@
     - reviewer-spanish:
 
        # Allow read access to Spanish content
-       - path: /content/larasoft/es
+       - path: /content/larasoft/us/es
          permission: allow
          privileges: jcr:read,jcr:versionManagement
-         
+        
        # Deny write/modify/replicate permissions - reviewers only approve, don't edit or publish
-       - path: /content/larasoft/es
+       - path: /content/larasoft/us/es
          permission: deny
          privileges: jcr:write,jcr:removeNode,jcr:lockManagement,jcr:modifyProperties,crx:replicate
          

@@ -17,7 +17,7 @@ Open your browser and check:
   - Search for: `editor-spanish` ✓
   - Search for: `reviewer-spanish` ✓
 
-- **Workflow Model**: http://localhost:4502/editor.html/conf/larasoft/settings/workflow/models/spanish-content-approval.html
+- **Workflow Model**: http://localhost:4502/editor.html/conf/global/settings/workflow/models/spanish-content-approval.html
   - Verify: "Spanish Content Approval Workflow" exists ✓
 
 - **Workflow Launcher**: http://localhost:4502/libs/cq/workflow/admin/console/content/launchers.html
@@ -46,7 +46,7 @@ Add to group: reviewer-spanish
 
 #### Test as Editor (should work):
 1. Login as `editor-test-es`
-2. Go to Sites: `/sites.html/content/larasoft/es`
+2. Go to Sites: `/sites.html/content/larasoft/us/es`
 3. Create a new page
 4. ✅ Page created successfully
 5. Try to publish immediately
@@ -111,7 +111,7 @@ tail -f crx-quickstart/logs/error.log
 
 **Fix**:
 - Verify workflow launcher is enabled
-- Check glob pattern: `/content/larasoft/es/**`
+- Check glob pattern: `/content/larasoft/us/es/**`
 - Restart AEM if needed
 
 ### ❌ Users don't have correct permissions?
@@ -119,7 +119,7 @@ tail -f crx-quickstart/logs/error.log
 **Check**: http://localhost:4502/useradmin
 1. Select user
 2. Click "Permissions" tab
-3. Navigate to `/content/larasoft/es`
+3. Navigate to `/content/larasoft/us/es`
 4. Verify ACLs are applied
 
 **Fix**:
@@ -157,7 +157,7 @@ Navigate to page → Page Information → Workflow → View History
 ### Check ACL Configuration
 http://localhost:4502/security/permissions.html
 
-Navigate to: `/content/larasoft/es`
+Navigate to: `/content/larasoft/us/es`
 Verify permissions for both groups
 
 ## 📚 Full Documentation

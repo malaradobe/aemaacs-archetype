@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the Spanish Content Approval Workflow implementation for AEM Sites. This workflow enforces mandatory review and approval before publishing Spanish content under `/content/larasoft/es`.
+This document describes the Spanish Content Approval Workflow implementation for AEM Sites. This workflow enforces mandatory review and approval before publishing Spanish content under `/content/larasoft/us/es`.
 
 ## Architecture
 
@@ -13,7 +13,8 @@ This document describes the Spanish Content Approval Workflow implementation for
    - `reviewer-spanish`: Can review, approve, reject, and publish Spanish content but cannot edit
 
 2. **Workflow Model**: `spanish-content-approval`
-   - Located at: `/conf/larasoft/settings/workflow/models/spanish-content-approval`
+   - Runtime Model: `/var/workflow/models/spanish-content-approval`
+   - Design Model: `/conf/global/settings/workflow/models/spanish-content-approval`
    - Automatically triggered when Spanish content is modified
 
 3. **Workflow Processes** (Java OSGi Services)
@@ -23,7 +24,7 @@ This document describes the Spanish Content Approval Workflow implementation for
    - `WorkflowEnforcementService`: Event listener that prevents direct publishing
 
 4. **Workflow Launcher**
-   - Automatically triggers workflow for content under `/content/larasoft/es`
+   - Automatically triggers workflow for content under `/content/larasoft/us/es`
 
 ## User Groups and Permissions
 
@@ -34,12 +35,12 @@ This document describes the Spanish Content Approval Workflow implementation for
 **Member Of**: `contributors`, `workflow-users`
 
 **Permissions**:
-- ✅ **ALLOW**: `jcr:read`, `jcr:write`, `jcr:removeNode`, `jcr:versionManagement`, `jcr:lockManagement`, `jcr:modifyProperties`, `crx:replicate` on `/content/larasoft/es`
+- ✅ **ALLOW**: `jcr:read`, `jcr:write`, `jcr:removeNode`, `jcr:versionManagement`, `jcr:lockManagement`, `jcr:modifyProperties`, `crx:replicate` on `/content/larasoft/us/es`
 - ❌ **DENY**: All access to `/content/larasoft` (cannot access other language content)
 - ✅ **ALLOW**: `jcr:read`, `jcr:write` on `/var/workflow` (for workflow participation)
 
 **What they can do**:
-- Create, edit, and delete pages under `/content/larasoft/es`
+- Create, edit, and delete pages under `/content/larasoft/us/es`
 - Create and modify content components
 - Save drafts and work-in-progress content
 - **Publish pages ONLY AFTER reviewer approval** (when `workflowState` = `APPROVED`)
@@ -58,8 +59,8 @@ This document describes the Spanish Content Approval Workflow implementation for
 **Member Of**: `content-authors`, `workflow-users`
 
 **Permissions**:
-- ✅ **ALLOW**: `jcr:read`, `jcr:versionManagement` on `/content/larasoft/es`
-- ❌ **DENY**: `jcr:write`, `jcr:removeNode`, `jcr:lockManagement`, `jcr:modifyProperties`, `crx:replicate` on `/content/larasoft/es`
+- ✅ **ALLOW**: `jcr:read`, `jcr:versionManagement` on `/content/larasoft/us/es`
+- ❌ **DENY**: `jcr:write`, `jcr:removeNode`, `jcr:lockManagement`, `jcr:modifyProperties`, `crx:replicate` on `/content/larasoft/us/es`
 - ✅ **ALLOW**: `jcr:read`, `jcr:write` on `/var/workflow` (for workflow participation)
 
 **What they can do**:
@@ -80,7 +81,7 @@ This document describes the Spanish Content Approval Workflow implementation for
 ### Step-by-Step Flow
 
 1. **Editor Creates/Modifies Content**
-   - Editor-spanish user creates or modifies a page under `/content/larasoft/es`
+   - Editor-spanish user creates or modifies a page under `/content/larasoft/us/es`
    - Content is saved as draft
 
 2. **Workflow Automatically Triggered**
@@ -142,7 +143,7 @@ Content pages can have the following workflow states (stored in `jcr:content/wor
 
 3. **Event Listener**
    - `WorkflowEnforcementService` listens to all replication events
-   - Intercepts publish attempts on `/content/larasoft/es`
+   - Intercepts publish attempts on `/content/larasoft/us/es`
    - Validates workflow state before allowing publication
    - Blocks publish if:
      - User is not in `editor-spanish` group
@@ -165,12 +166,15 @@ Content pages can have the following workflow states (stored in `jcr:content/wor
 ```
 aemaacs-archetype/
 ├── ui.apps/src/main/content/jcr_root/
-│   ├── apps/larasoft/actools/
-│   │   └── access.yaml                                    # User groups and ACL configuration
-│   └── conf/larasoft/settings/workflow/
+│   └── apps/larasoft/actools/
+│       └── access.yaml                                    # User groups and ACL configuration
+├── ui.content/src/main/content/jcr_root/
+│   ├── var/workflow/models/
+│   │   └── spanish-content-approval.xml                   # Workflow runtime model
+│   └── conf/global/settings/workflow/
 │       ├── models/spanish-content-approval/
-│       │   └── .content.xml                               # Workflow model definition
-│       └── launcher/
+│       │   └── .content.xml                               # Workflow design model
+│       └── launcher/config/spanish-content-approval-launcher/
 │           └── .content.xml                               # Workflow launcher configuration
 ├── ui.config/src/main/content/jcr_root/apps/larasoft/osgiconfig/
 │   └── config/
@@ -210,7 +214,7 @@ mvn clean test
 #### Test 1: Editor Cannot Publish Without Approval
 
 1. Log in as a user in `editor-spanish` group
-2. Navigate to `/sites.html/content/larasoft/es`
+2. Navigate to `/sites.html/content/larasoft/us/es`
 3. Create or edit a page
 4. Try to publish the page immediately
 5. Attempt should be blocked by WorkflowEnforcementService
@@ -319,7 +323,7 @@ mvn clean install -PautoInstallSinglePackage
    - Verify groups and permissions were created
 
 4. **Verify Workflow Model**:
-   - Navigate to `/conf/larasoft/settings/workflow/models`
+   - Navigate to `/conf/global/settings/workflow/models`
    - Verify "Spanish Content Approval Workflow" exists
    - Open and verify workflow steps
 
@@ -341,7 +345,7 @@ mvn clean install -PautoInstallSinglePackage
 
 **Solutions**:
 - Check workflow launcher is enabled
-- Verify glob pattern matches: `/content/larasoft/es/**`
+- Verify glob pattern matches: `/content/larasoft/us/es/**`
 - Check workflow model path is correct
 - Review error logs in `/system/console/slinglog`
 

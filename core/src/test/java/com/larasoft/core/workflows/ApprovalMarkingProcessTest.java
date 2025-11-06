@@ -55,7 +55,7 @@ class ApprovalMarkingProcessTest {
     @Test
     void testExecute_MarksContentAsApproved() throws Exception {
         // Create test page
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         Resource page = context.create().resource(pagePath,
                 "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
@@ -88,7 +88,7 @@ class ApprovalMarkingProcessTest {
     @Test
     void testExecute_WithApprovalComment() throws Exception {
         // Create test page
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         Resource page = context.create().resource(pagePath,
                 "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
@@ -120,7 +120,7 @@ class ApprovalMarkingProcessTest {
     void testExecute_InvalidResource_ThrowsException() {
         // Mock workflow with invalid path
         when(workItem.getWorkflowData()).thenReturn(workflowData);
-        when(workflowData.getPayload()).thenReturn("/content/larasoft/es/non-existent");
+        when(workflowData.getPayload()).thenReturn("/content/larasoft/us/es/non-existent");
         when(workflowSession.adaptTo(ResourceResolver.class)).thenReturn(context.resourceResolver());
 
         // Execute process - should throw exception
@@ -132,7 +132,7 @@ class ApprovalMarkingProcessTest {
     @Test
     void testExecute_StateTransitionFromInProgress() throws Exception {
         // Create test page with IN_PROGRESS state
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         context.create().resource(pagePath, "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
                 "jcr:primaryType", "cq:PageContent",

@@ -7,7 +7,7 @@
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:wcm]"
         cq:template="/libs/cq/workflow/templates/model"
-        jcr:description="Approval workflow for Spanish content under /content/larasoft/es - enforces review before publishing"
+        jcr:description="Approval workflow for Spanish content under /content/larasoft/us/es - enforces review before publishing"
         jcr:primaryType="cq:PageContent"
         jcr:title="Spanish Content Approval Workflow"
         sling:resourceType="cq/workflow/components/pages/model"

@@ -41,7 +41,7 @@ public class WorkflowEnforcementService implements EventHandler {
     private static final String WORKFLOW_STATE_PROPERTY = "workflowState";
     private static final String STATE_APPROVED = "APPROVED";
     private static final String STATE_IN_PROGRESS = "IN_PROGRESS";
-    private static final String SPANISH_CONTENT_PATH = "/content/larasoft/es";
+    private static final String SPANISH_CONTENT_PATH = "/content/larasoft/us/es";
 
     @Reference
     private ResourceResolverFactory resolverFactory;

@@ -60,7 +60,7 @@ class WorkflowEnforcementProcessTest {
     @Test
     void testExecute_SpanishContent_Success() throws Exception {
         // Create test page under Spanish content path
-        String pagePath = "/content/larasoft/es/test-page";
+        String pagePath = "/content/larasoft/us/es/test-page";
         Resource page = context.create().resource(pagePath,
                 "jcr:primaryType", "cq:Page");
         context.create().resource(pagePath + "/jcr:content",
@@ -116,7 +116,7 @@ class WorkflowEnforcementProcessTest {
     void testExecute_InvalidResource_ThrowsException() {
         // Mock workflow with invalid path
         when(workItem.getWorkflowData()).thenReturn(workflowData);
-        when(workflowData.getPayload()).thenReturn("/content/larasoft/es/non-existent");
+        when(workflowData.getPayload()).thenReturn("/content/larasoft/us/es/non-existent");
         when(workflowSession.adaptTo(ResourceResolver.class)).thenReturn(context.resourceResolver());
 
         // Execute process - should throw exception
@@ -129,7 +129,7 @@ class WorkflowEnforcementProcessTest {
     void testExecute_NullResourceResolver_ThrowsException() {
         // Mock workflow with null resource resolver
         when(workItem.getWorkflowData()).thenReturn(workflowData);
-        when(workflowData.getPayload()).thenReturn("/content/larasoft/es/test");
+        when(workflowData.getPayload()).thenReturn("/content/larasoft/us/es/test");
         when(workflowSession.adaptTo(ResourceResolver.class)).thenReturn(null);
 
         // Execute process - should throw exception

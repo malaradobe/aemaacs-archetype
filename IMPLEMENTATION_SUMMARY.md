@@ -2,7 +2,7 @@
 
 ## Overview
 
-A complete content approval workflow system has been implemented for Spanish content under `/content/larasoft/es` in AEM Sites. This system enforces mandatory review and approval before publishing, with strict user permissions to prevent workflow bypass.
+A complete content approval workflow system has been implemented for Spanish content under `/content/larasoft/us/es` in AEM Sites. This system enforces mandatory review and approval before publishing, with strict user permissions to prevent workflow bypass.
 
 ## What Was Implemented
 
@@ -16,7 +16,7 @@ Created two user groups with specific permissions:
 - **Purpose**: Editors who can edit and publish (only approved) Spanish content
 - **Member Of**: `contributors`, `workflow-users`
 - **Permissions**:
-  - ✅ Read/write access to `/content/larasoft/es`
+  - ✅ Read/write access to `/content/larasoft/us/es`
   - ✅ Can replicate BUT only when `workflowState` = `APPROVED`
   - ❌ Denied access to other content paths
   - ✅ Access to `/var/workflow` for workflow participation
@@ -25,14 +25,16 @@ Created two user groups with specific permissions:
 - **Purpose**: Reviewers who can approve or reject Spanish content
 - **Member Of**: `content-authors`, `workflow-users`
 - **Permissions**:
-  - ✅ Read access to `/content/larasoft/es`
+  - ✅ Read access to `/content/larasoft/us/es`
   - ❌ Cannot publish (denied `crx:replicate`)
   - ❌ Cannot edit (denied write permissions)
   - ✅ Access to `/var/workflow` for workflow participation
 
 ### 2. Workflow Model
 
-**File**: `ui.apps/src/main/content/jcr_root/conf/larasoft/settings/workflow/models/spanish-content-approval/.content.xml`
+**Files**: 
+- **Runtime Model**: `ui.content/src/main/content/jcr_root/var/workflow/models/spanish-content-approval.xml`
+- **Design Model**: `ui.content/src/main/content/jcr_root/conf/global/settings/workflow/models/spanish-content-approval/.content.xml`
 
 **Name**: Spanish Content Approval Workflow
 
@@ -54,14 +56,14 @@ Created two user groups with specific permissions:
 
 ### 3. Workflow Launcher
 
-**File**: `ui.apps/src/main/content/jcr_root/conf/larasoft/settings/workflow/launcher/.content.xml`
+**File**: `ui.content/src/main/content/jcr_root/conf/global/settings/workflow/launcher/config/spanish-content-approval-launcher/.content.xml`
 
 **Configuration**:
-- **Glob Pattern**: `/content/larasoft/es/**`
+- **Glob Pattern**: `/content/larasoft/us/es/**`
 - **Event Type**: Content modification (eventType=1)
 - **Node Type**: `cq:Page`
 - **Auto-trigger**: Enabled on author instance
-- **Exclusions**: Policy and jcr:content nodes
+- **Exclusions**: Nodes matching pattern `[/content/larasoft/us/es/.*/(jcr:content|rep:policy)]`
 
 ### 4. Workflow Enforcement Logic (Java Services)
 
@@ -123,7 +125,7 @@ Created two user groups with specific permissions:
 **File**: `ui.config/src/main/content/jcr_root/apps/larasoft/osgiconfig/config/org.apache.sling.jcr.repoinit.RepositoryInitializer~larasoft.cfg.json`
 
 **Added**:
-- Content path creation: `/content/larasoft` and `/content/larasoft/es`
+- Content path creation: `/content/larasoft` and `/content/larasoft/us/es`
 - Service user: `internal-content` with path `system/larasoft`
 - ACL for service user: read access to `/content` and `/var/workflow`
 
@@ -222,9 +224,10 @@ Comprehensive documentation including:
 
 ### Created (21 files)
 ```
-ui.apps/
-├── conf/larasoft/settings/workflow/models/spanish-content-approval/.content.xml
-└── conf/larasoft/settings/workflow/launcher/.content.xml
+ui.content/
+├── var/workflow/models/spanish-content-approval.xml
+├── conf/global/settings/workflow/models/spanish-content-approval/.content.xml
+└── conf/global/settings/workflow/launcher/config/spanish-content-approval-launcher/.content.xml
 
 core/src/main/java/com/larasoft/core/workflows/
 ├── WorkflowEnforcementProcess.java
@@ -264,7 +267,7 @@ ui.config/
 
 1. **Editor** (editor-spanish group member):
    - Logs into AEM Author
-   - Navigates to `/content/larasoft/es`
+   - Navigates to `/content/larasoft/us/es`
    - Creates or edits a Spanish page
    - Saves the content
    - Tries to publish → blocked (not approved yet)
@@ -298,7 +301,7 @@ ui.config/
 
 1. **Event Listener Level**:
    - `WorkflowEnforcementService` monitors all replication events
-   - Checks if path is under `/content/larasoft/es`
+   - Checks if path is under `/content/larasoft/us/es`
    - Validates user is in `editor-spanish` group
    - Validates `workflowState` property exists
    - Blocks if state is not `APPROVED`
@@ -358,7 +361,7 @@ See `SPANISH_CONTENT_APPROVAL_WORKFLOW.md` for detailed manual test scenarios in
 
 ✅ **User Group: editor-spanish**
 - Inherits from Contributors ✓
-- Can only access and edit Spanish content under `/content/larasoft/es` ✓
+- Can only access and edit Spanish content under `/content/larasoft/us/es` ✓
 - **Can publish BUT only when content is APPROVED by reviewer** ✓
 - Cannot access other content paths ✓
 
@@ -366,7 +369,7 @@ See `SPANISH_CONTENT_APPROVAL_WORKFLOW.md` for detailed manual test scenarios in
 - Can review, reject, and approve Spanish content ✓
 - Cannot make edits (no write permissions) ✓
 - **Cannot publish (editors publish after approval)** ✓
-- Works under `/content/larasoft/es` ✓
+- Works under `/content/larasoft/us/es` ✓
 
 ✅ **Workflow Enforcement**
 - Custom workflow model created ✓
