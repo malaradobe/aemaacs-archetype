@@ -17,7 +17,6 @@
             sling:resourceType="foundation/components/parsys">
             <process
                 jcr:description="Verify workflow is not being bypassed"
-
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Check Workflow State"
                 sling:resourceType="cq/workflow/components/model/process">
@@ -72,6 +71,42 @@
                     PROCESS="com.larasoft.core.workflows.RequestChangesProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_513636853>
+            <participant_notification
+                jcr:description="Notify the original editor that their content has been approved and is ready to publish"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Notify Editor - Content Approved"
+                sling:resourceType="cq/workflow/components/model/participant">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PARTICIPANT="$(initiator)"
+                    PROCESS_AUTO_ADVANCE="false"
+                    taskInstructions="✅ Your Spanish content has been APPROVED and is ready to publish!&#xa;&#xa;Page: $(payload)&#xa;&#xa;You can now publish this page from the Sites console.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                    taskTitle="Content Approved - Ready to Publish"/>
+            </participant_notification>
+            <participant_rejection_notification
+                jcr:description="Notify the original editor that their content has been rejected"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Notify Editor - Content Rejected"
+                sling:resourceType="cq/workflow/components/model/participant">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PARTICIPANT="$(initiator)"
+                    PROCESS_AUTO_ADVANCE="false"
+                    taskInstructions="❌ Your Spanish content has been REJECTED.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the rejection comments, make necessary changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                    taskTitle="Content Rejected - Changes Required"/>
+            </participant_rejection_notification>
+            <participant_changes_notification
+                jcr:description="Notify the original editor that changes have been requested"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Notify Editor - Changes Requested"
+                sling:resourceType="cq/workflow/components/model/participant">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PARTICIPANT="$(initiator)"
+                    PROCESS_AUTO_ADVANCE="false"
+                    taskInstructions="🔄 The reviewer has requested changes to your Spanish content.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the feedback, make the requested changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                    taskTitle="Changes Requested - Action Required"/>
+            </participant_changes_notification>
         </flow>
     </jcr:content>
 </jcr:root>

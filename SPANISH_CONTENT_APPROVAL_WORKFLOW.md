@@ -23,8 +23,10 @@ This document describes the Spanish Content Approval Workflow implementation for
    - `RequestChangesProcess`: Handles change requests from reviewers
    - `WorkflowEnforcementService`: Event listener that prevents direct publishing
 
-4. **Workflow Launcher**
-   - Automatically triggers workflow for content under `/content/larasoft/us/es`
+4. **Manual Workflow Initiation**
+   - "Request Approval" action in Page Editor (visible only to `editor-spanish` group)
+   - Servlet endpoint: `/bin/larasoft/workflow/request-spanish-approval`
+   - Configurable Spanish content path via OSGi configuration
 
 ## User Groups and Permissions
 
@@ -83,9 +85,11 @@ This document describes the Spanish Content Approval Workflow implementation for
 1. **Editor Creates/Modifies Content**
    - Editor-spanish user creates or modifies a page under `/content/larasoft/us/es`
    - Content is saved as draft
+   - Editor clicks "Request Approval" button in Page Editor toolbar when ready for review
 
-2. **Workflow Automatically Triggered**
-   - Workflow launcher detects the modification
+2. **Editor Manually Requests Approval**
+   - Editor clicks "Request Approval" button in the Page Editor toolbar
+   - Button is only visible for pages under `/content/larasoft/us/es` (configurable)
    - Spanish Content Approval Workflow is initiated
    - Content is marked with `workflowState: IN_PROGRESS`
 
@@ -103,7 +107,7 @@ This document describes the Spanish Content Approval Workflow implementation for
 
 5. **Approval Path**
    - If approved, `ApprovalMarkingProcess` marks content as `APPROVED`
-   - Editor receives notification (workflow inbox) that content is approved
+   - ✅ Editor receives **automatic inbox notification**: "Content Approved - Ready to Publish"
    - Editor can now manually publish the content
    - `WorkflowEnforcementService` allows the publish since state is `APPROVED`
    - Workflow completes
@@ -112,12 +116,14 @@ This document describes the Spanish Content Approval Workflow implementation for
    - If rejected, `RejectionNotificationProcess` runs
    - Content is marked with `workflowState: REJECTED`
    - Rejection comment is stored in `workflowComment` property
+   - ❌ Editor receives **automatic inbox notification**: "Content Rejected - Changes Required"
    - Editor can view rejection reason and make corrections
 
 7. **Request Changes Path**
    - If changes requested, `RequestChangesProcess` runs
    - Content is marked with `workflowState: CHANGES_REQUESTED`
    - Feedback is stored in `workflowFeedback` property
+   - 🔄 Editor receives **automatic inbox notification**: "Changes Requested - Action Required"
    - Editor can view feedback and resubmit
 
 ### Workflow States
@@ -211,30 +217,32 @@ mvn clean test
 
 ### Manual Testing Scenarios
 
-#### Test 1: Editor Cannot Publish Without Approval
+#### Test 1: Request Approval Action Visibility
 
 1. Log in as a user in `editor-spanish` group
 2. Navigate to `/sites.html/content/larasoft/us/es`
-3. Create or edit a page
-4. Try to publish the page immediately
-5. Attempt should be blocked by WorkflowEnforcementService
+3. Open a Spanish page in Page Editor
+4. Verify "Request Approval" button is visible in the toolbar
+5. Navigate to a non-Spanish page (e.g., `/content/larasoft/us/en`)
+6. Verify "Request Approval" button is NOT visible
 
-**Expected Result**: Editor cannot publish unapproved content; workflow is automatically triggered
+**Expected Result**: Button only visible for Spanish content pages and editor-spanish users
 
-#### Test 2: Workflow Approval Flow
+#### Test 2: Manual Workflow Initiation and Approval Flow
 
 1. As `editor-spanish`, create/edit a Spanish page
-2. Workflow is automatically triggered
-3. Log in as `reviewer-spanish` user
-4. Open workflow inbox: `/aem/inbox`
-5. Find the Spanish content approval task
-6. Click "Approve"
-7. Log back in as `editor-spanish`
-8. Check workflow inbox - should see notification that content is approved
-9. Navigate to the page and click "Publish"
-10. Content should be successfully published
+2. Click "Request Approval" button in Page Editor toolbar
+3. Verify success notification appears
+4. Log in as `reviewer-spanish` user
+5. Open workflow inbox: `/aem/inbox`
+6. Find the Spanish content approval task
+7. Click "Approve"
+8. Log back in as `editor-spanish`
+9. Check workflow inbox - should see notification that content is approved
+10. Navigate to the page and click "Publish"
+11. Content should be successfully published
 
-**Expected Result**: After reviewer approval, editor can publish the content
+**Expected Result**: Manual workflow initiation works; after reviewer approval, editor can publish the content
 
 #### Test 3: Rejection Flow
 
@@ -341,13 +349,15 @@ mvn clean install -PautoInstallSinglePackage
 
 ### Workflow Not Triggering
 
-**Problem**: Workflow doesn't start when Spanish content is modified
+**Problem**: Workflow doesn't start when "Request Approval" button is clicked
 
 **Solutions**:
-- Check workflow launcher is enabled
-- Verify glob pattern matches: `/content/larasoft/us/es/**`
+- Verify user is member of `editor-spanish` group
+- Check servlet is registered at `/bin/larasoft/workflow/request-spanish-approval`
+- Verify OSGi configuration has correct paths
 - Check workflow model path is correct
 - Review error logs in `/system/console/slinglog`
+- Check browser console for JavaScript errors
 
 ### ACL Permissions Not Applied
 
@@ -385,6 +395,13 @@ mvn clean install -PautoInstallSinglePackage
 2. **Group Membership**: Users should be added to only ONE of the groups (editor or reviewer)
 3. **Admin Bypass**: Administrators can bypass the workflow - this is by design for emergency situations
 4. **Workflow History**: All workflow actions are logged and auditable
+
+## Implemented Features
+
+1. ✅ **Inbox Notifications**: Automatic AEM Inbox notifications for all workflow decisions (See [WORKFLOW_NOTIFICATIONS.md](./WORKFLOW_NOTIFICATIONS.md))
+2. ✅ **Manual Workflow Trigger**: "Request Approval" button in Page Editor
+3. ✅ **Publish Protection**: WorkflowEnforcementService prevents unauthorized publishing
+4. ✅ **Configurable Path**: Spanish content path is configurable via OSGi
 
 ## Future Enhancements
 

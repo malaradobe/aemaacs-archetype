@@ -82,6 +82,42 @@
                 PROCESS="com.larasoft.core.workflows.RequestChangesProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node5>
+        <node7
+            jcr:primaryType="cq:WorkflowNode"
+            title="Notify Editor - Content Approved"
+            description="Notify the original editor that their content has been approved and is ready to publish"
+            type="PARTICIPANT">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="$(initiator)"
+                PROCESS_AUTO_ADVANCE="false"
+                taskInstructions="✅ Your Spanish content has been APPROVED and is ready to publish!&#xa;&#xa;Page: $(payload)&#xa;&#xa;You can now publish this page from the Sites console.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                taskTitle="Content Approved - Ready to Publish"/>
+        </node7>
+        <node8
+            jcr:primaryType="cq:WorkflowNode"
+            title="Notify Editor - Content Rejected"
+            description="Notify the original editor that their content has been rejected"
+            type="PARTICIPANT">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="$(initiator)"
+                PROCESS_AUTO_ADVANCE="false"
+                taskInstructions="❌ Your Spanish content has been REJECTED.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the rejection comments, make necessary changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                taskTitle="Content Rejected - Changes Required"/>
+        </node8>
+        <node9
+            jcr:primaryType="cq:WorkflowNode"
+            title="Notify Editor - Changes Requested"
+            description="Notify the original editor that changes have been requested"
+            type="PARTICIPANT">
+            <metaData 
+                jcr:primaryType="nt:unstructured"
+                PARTICIPANT="$(initiator)"
+                PROCESS_AUTO_ADVANCE="false"
+                taskInstructions="🔄 The reviewer has requested changes to your Spanish content.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the feedback, make the requested changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
+                taskTitle="Changes Requested - Action Required"/>
+        </node9>
         <node6
             jcr:primaryType="cq:WorkflowNode"
             title="End"
@@ -120,23 +156,41 @@
             to="node5">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_to_node5_requestChanges>
-        <node3_to_node6
+        <node3_to_node7
             jcr:primaryType="cq:WorkflowTransition"
             from="node3"
+            to="node7">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3_to_node7>
+        <node7_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node7"
             to="node6">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node3_to_node6>
-        <node4_to_node6
+        </node7_to_node6>
+        <node4_to_node8
             jcr:primaryType="cq:WorkflowTransition"
             from="node4"
+            to="node8">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node4_to_node8>
+        <node8_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node8"
             to="node6">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node4_to_node6>
-        <node5_to_node6
+        </node8_to_node6>
+        <node5_to_node9
             jcr:primaryType="cq:WorkflowTransition"
             from="node5"
+            to="node9">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node5_to_node9>
+        <node9_to_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node9"
             to="node6">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node5_to_node6>
+        </node9_to_node6>
     </transitions>
 </jcr:root>

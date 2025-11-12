@@ -54,16 +54,25 @@ Created two user groups with specific permissions:
 - `REJECTED`: Rejected by reviewer
 - `CHANGES_REQUESTED`: Changes requested by reviewer
 
-### 3. Workflow Launcher
+### 3. Manual Workflow Trigger
 
-**File**: `ui.content/src/main/content/jcr_root/conf/global/settings/workflow/launcher/config/spanish-content-approval-launcher/.content.xml`
+**Servlet**: `core/src/main/java/com/larasoft/core/servlets/RequestSpanishApprovalServlet.java`
+- **Endpoint**: `/bin/larasoft/workflow/request-spanish-approval`
+- **Method**: POST
+- **Required Role**: `editor-spanish` group membership
+- **Path Validation**: Only allows pages under configured Spanish content path
 
-**Configuration**:
-- **Glob Pattern**: `/content/larasoft/us/es/**`
-- **Event Type**: Content modification (eventType=1)
-- **Node Type**: `cq:Page`
-- **Auto-trigger**: Enabled on author instance
-- **Exclusions**: Nodes matching pattern `[/content/larasoft/us/es/.*/(jcr:content|rep:policy)]`
+**OSGi Configuration**: `ui.config/src/main/content/jcr_root/apps/larasoft/osgiconfig/config/com.larasoft.core.workflows.SpanishWorkflowConfig.cfg.json`
+- `spanish.content.path`: `/content/larasoft/us/es` (configurable)
+- `workflow.model.path`: `/var/workflow/models/spanish-content-approval`
+
+**Page Editor Action**: `ui.apps/src/main/content/jcr_root/apps/larasoft/clientlibs/clientlib-spanish-workflow/`
+- ClientLib category: `cq.authoring.editor`
+- Adds "Request Approval" button to Page Editor toolbar
+- Only visible to `editor-spanish` group members
+- Only shown for pages under Spanish content path
+
+**Note**: Workflow launcher is **disabled** - approval must be manually requested
 
 ### 4. Workflow Enforcement Logic (Java Services)
 
@@ -227,15 +236,29 @@ Comprehensive documentation including:
 ui.content/
 ├── var/workflow/models/spanish-content-approval.xml
 ├── conf/global/settings/workflow/models/spanish-content-approval/.content.xml
-└── conf/global/settings/workflow/launcher/config/spanish-content-approval-launcher/.content.xml
+└── conf/global/settings/workflow/launcher/config/spanish-content-approval-launcher/.content.xml (DISABLED)
 
-core/src/main/java/com/larasoft/core/workflows/
-├── WorkflowEnforcementProcess.java
-├── WorkflowEnforcementService.java
-├── ApprovalMarkingProcess.java
-├── RejectionNotificationProcess.java
-├── RequestChangesProcess.java
-└── package-info.java
+ui.apps/
+└── apps/larasoft/clientlibs/clientlib-spanish-workflow/
+    ├── .content.xml
+    ├── js.txt
+    └── js/request-spanish-approval.js
+
+ui.config/
+└── apps/larasoft/osgiconfig/config/
+    └── com.larasoft.core.workflows.SpanishWorkflowConfig.cfg.json
+
+core/src/main/java/com/larasoft/core/
+├── servlets/
+│   └── RequestSpanishApprovalServlet.java
+└── workflows/
+    ├── SpanishWorkflowConfig.java
+    ├── WorkflowEnforcementProcess.java
+    ├── WorkflowEnforcementService.java
+    ├── ApprovalMarkingProcess.java
+    ├── RejectionNotificationProcess.java
+    ├── RequestChangesProcess.java
+    └── package-info.java
 
 core/src/test/java/com/larasoft/core/workflows/
 ├── WorkflowEnforcementProcessTest.java
@@ -270,11 +293,13 @@ ui.config/
    - Navigates to `/content/larasoft/us/es`
    - Creates or edits a Spanish page
    - Saves the content
+   - Clicks "Request Approval" button in Page Editor toolbar
    - Tries to publish → blocked (not approved yet)
 
 2. **Workflow System**:
-   - Detects modification to Spanish content
-   - Automatically launches "Spanish Content Approval Workflow"
+   - Editor clicks "Request Approval" button
+   - Servlet validates user permissions and page path
+   - Manually launches "Spanish Content Approval Workflow"
    - `WorkflowEnforcementProcess` marks content with `workflowState: IN_PROGRESS`
    - Creates workflow task assigned to `reviewer-spanish` group
 
