@@ -2,21 +2,27 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
+        cq:cloudserviceconfigs="[/libs/settings/cloudconfigs/translation/translationcfg/default_translation]"
+        cq:conf="/conf/larasoft"
         cq:contextHubPath="/etc/cloudsettings/default/contexthub"
         cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:isTransCreated="{Boolean}true"
+        cq:languageRoot="es"
+        cq:lastModified="{Date}2025-11-13T09:50:17.987-08:00"
+        cq:lastModifiedBy="admin"
+        cq:lastTranslationUpdate="{Date}2025-11-13T09:50:17.987-08:00"
         cq:template="/conf/larasoft/settings/wcm/templates/page-content"
-        jcr:mixinTypes="[cq:LiveRelationship]"
+        cq:translationSourcePath="/content/larasoft/language-masters/en"
+        cq:translationSourceUUID="{WeakReference}45fbb0fd-efe0-4be7-a5fb-fb44ec8b15e4"
         jcr:primaryType="cq:PageContent"
-        jcr:title="en"
+        jcr:title="Spanish"
         sling:resourceType="larasoft/components/page"
         pageTitle="LaraSoft">
         <root
-            jcr:mixinTypes="[cq:LiveRelationship]"
             jcr:primaryType="nt:unstructured"
             sling:resourceType="larasoft/components/container"
             layout="responsiveGrid">
             <container
-                jcr:mixinTypes="[cq:LiveRelationship]"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="larasoft/components/container">
                 <title
@@ -81,10 +87,5 @@
                 </container>
             </container>
         </root>
-        <cq:LiveSyncConfig
-            cq:isDeep="{Boolean}true"
-            cq:master="/content/larasoft/language-masters/en"
-            cq:rolloutConfigs="[/libs/msm/wcm/rolloutconfigs/default]"
-            jcr:primaryType="cq:LiveCopy"/>
     </jcr:content>
 </jcr:root>
