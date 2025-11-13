@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/libs/settings/wcm/designs/default"
-        cq:lastModified="{Date}2025-11-05T09:09:04.538-08:00"
+        cq:lastModified="{Date}2025-11-13T11:40:05.318-08:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:wcm]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -11,7 +11,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Spanish Content Approval Workflow"
         sling:resourceType="cq/workflow/components/pages/model"
-        lastSynced="{Date}2025-11-05T09:09:07.342-08:00">
+        lastSynced="{Date}2025-11-13T11:54:30.958-08:00">
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
@@ -26,7 +26,9 @@
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
             <participant
-                jcr:description="Reviewer must approve, reject, or request changes"
+                jcr:description="Reviewer must approve or request changes"
+                jcr:lastModified="{Date}2025-11-13T11:40:05.315-08:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Spanish Content Review"
                 sling:resourceType="cq/workflow/components/model/participant">
@@ -39,20 +41,16 @@
                         <approve
                             jcr:primaryType="nt:unstructured"
                             label="Approve"
-                            route="node2_to_node3_approve"/>
-                        <reject
-                            jcr:primaryType="nt:unstructured"
-                            label="Reject"
-                            route="node2_to_node4_reject"/>
+                            route="node2_x0023_node3"/>
                         <requestChanges
                             jcr:primaryType="nt:unstructured"
                             label="Request Changes"
-                            route="node2_to_node5_requestChanges"/>
+                            route="node2_x0023_node4"/>
                     </workflowActions>
                 </metaData>
             </participant>
             <process_1313880425
-                jcr:description="Mark content as approved - editor can now publish"
+                jcr:description="Mark content as approved - editor can now publish - Java service sends email notification"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Mark as Approved"
                 sling:resourceType="cq/workflow/components/model/process">
@@ -62,51 +60,15 @@
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_1313880425>
             <process_513636853
-                jcr:description="Send back to editor for modifications"
+                jcr:description="Send back to editor for modifications - Java service sends email notification"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Request Changes Handler"
+                jcr:title="Request Changes"
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     PROCESS="com.larasoft.core.workflows.RequestChangesProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_513636853>
-            <participant_notification
-                jcr:description="Notify the original editor that their content has been approved and is ready to publish"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Notify Editor - Content Approved"
-                sling:resourceType="cq/workflow/components/model/participant">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PARTICIPANT="$(initiator)"
-                    PROCESS_AUTO_ADVANCE="false"
-                    taskInstructions="✅ Your Spanish content has been APPROVED and is ready to publish!&#xa;&#xa;Page: $(payload)&#xa;&#xa;You can now publish this page from the Sites console.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
-                    taskTitle="Content Approved - Ready to Publish"/>
-            </participant_notification>
-            <participant_rejection_notification
-                jcr:description="Notify the original editor that their content has been rejected"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Notify Editor - Content Rejected"
-                sling:resourceType="cq/workflow/components/model/participant">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PARTICIPANT="$(initiator)"
-                    PROCESS_AUTO_ADVANCE="false"
-                    taskInstructions="❌ Your Spanish content has been REJECTED.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the rejection comments, make necessary changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
-                    taskTitle="Content Rejected - Changes Required"/>
-            </participant_rejection_notification>
-            <participant_changes_notification
-                jcr:description="Notify the original editor that changes have been requested"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Notify Editor - Changes Requested"
-                sling:resourceType="cq/workflow/components/model/participant">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PARTICIPANT="$(initiator)"
-                    PROCESS_AUTO_ADVANCE="false"
-                    taskInstructions="🔄 The reviewer has requested changes to your Spanish content.&#xa;&#xa;Page: $(payload)&#xa;&#xa;Please review the feedback, make the requested changes, and request approval again.&#xa;&#xa;Click 'Complete' to acknowledge this notification."
-                    taskTitle="Changes Requested - Action Required"/>
-            </participant_changes_notification>
         </flow>
     </jcr:content>
 </jcr:root>

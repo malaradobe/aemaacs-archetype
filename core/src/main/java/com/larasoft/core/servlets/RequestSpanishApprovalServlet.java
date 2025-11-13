@@ -121,7 +121,7 @@ public class RequestSpanishApprovalServlet extends SlingAllMethodsServlet {
             
             // Set workflow metadata
             Map<String, Object> metaData = new HashMap<>();
-            metaData.put("initiatedBy", resourceResolver.getUserID());
+            metaData.put("initiator", resourceResolver.getUserID());
             metaData.put("pagePath", pagePath);
             metaData.put("pageTitle", page.getTitle() != null ? page.getTitle() : page.getName());
 
