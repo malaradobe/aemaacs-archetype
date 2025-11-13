@@ -7,6 +7,6 @@
         "create path (cq:Page) /content/larasoft/us",
         "create path (cq:Page) /content/larasoft/us/es",
         "create service user internal-content with path system/larasoft",
-        "set ACL for internal-content\n  allow jcr:read on /content\n  allow jcr:read on /var/workflow\nend"
+        "set ACL for internal-content\n  allow jcr:read on /content\n  allow jcr:read on /var/workflow\n  allow jcr:read on /home\nend"
     ]
 }
