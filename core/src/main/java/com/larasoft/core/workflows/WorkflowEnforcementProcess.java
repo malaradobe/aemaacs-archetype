@@ -43,8 +43,9 @@ public class WorkflowEnforcementProcess implements WorkflowProcess {
                 throw new WorkflowException("Unable to obtain ResourceResolver");
             }
             
-            // Verify the path is under Spanish content
-            if (!payloadPath.startsWith("/content/larasoft/us/es")) {
+            // Verify the path is under Spanish content (exact match or descendant)
+            String spanishContentPath = "/content/larasoft/us/es";
+            if (!isUnderSpanishContentPath(payloadPath, spanishContentPath)) {
                 LOG.warn("Workflow enforcement called for non-Spanish content: {}", payloadPath);
                 return;
             }
@@ -80,6 +81,23 @@ public class WorkflowEnforcementProcess implements WorkflowProcess {
             LOG.error("Persistence exception during workflow enforcement", e);
             throw new WorkflowException("Failed to enforce workflow state", e);
         }
+    }
+
+    /**
+     * Check if the path is under Spanish content path (exact match or descendant)
+     * This ensures /content/larasoft/us/es and /content/larasoft/us/es/* match,
+     * but NOT /content/larasoft/us/es-mx (sibling paths)
+     */
+    private boolean isUnderSpanishContentPath(String path, String basePath) {
+        if (path == null || basePath == null) {
+            return false;
+        }
+        // Exact match
+        if (path.equals(basePath)) {
+            return true;
+        }
+        // Descendant match (must have trailing slash)
+        return path.startsWith(basePath + "/");
     }
 }
 

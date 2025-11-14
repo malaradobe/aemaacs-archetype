@@ -78,7 +78,8 @@ public class WorkflowEnforcementService implements EventHandler {
             String userId = (String) event.getProperty("userId");
 
             // Only enforce for activate/publish actions on Spanish content
-            if (path == null || !path.startsWith(spanishContentPath)) {
+            // Match exact path OR descendants (with trailing slash)
+            if (path == null || !isUnderSpanishContentPath(path)) {
                 return;
             }
 
@@ -182,6 +183,23 @@ public class WorkflowEnforcementService implements EventHandler {
             LOG.error("Unexpected exception during workflow enforcement", e);
             throw new RuntimeException("Workflow enforcement check failed: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Check if the path is under Spanish content path (exact match or descendant)
+     * This ensures /content/larasoft/us/es and /content/larasoft/us/es/* match,
+     * but NOT /content/larasoft/us/es-mx (sibling paths)
+     */
+    private boolean isUnderSpanishContentPath(String path) {
+        if (path == null) {
+            return false;
+        }
+        // Exact match
+        if (path.equals(spanishContentPath)) {
+            return true;
+        }
+        // Descendant match (must have trailing slash)
+        return path.startsWith(spanishContentPath + "/");
     }
 
     /**

@@ -83,10 +83,10 @@ public class RequestSpanishApprovalServlet extends SlingAllMethodsServlet {
                 return;
             }
 
-            // 2. Check if page is under configured Spanish content path
-            if (!pagePath.startsWith(spanishContentPath)) {
+            // 2. Check if page is under configured Spanish content path (exact match or descendant)
+            if (!isUnderSpanishContentPath(pagePath)) {
                 sendError(response, 403, 
-                    String.format("Page is not under Spanish content path. Expected path to start with: %s", spanishContentPath));
+                    String.format("Page is not under Spanish content path. Expected path to be: %s or a descendant", spanishContentPath));
                 return;
             }
 
@@ -151,6 +151,23 @@ public class RequestSpanishApprovalServlet extends SlingAllMethodsServlet {
             LOG.error("Unexpected error in RequestSpanishApprovalServlet", e);
             sendError(response, 500, "Unexpected error: " + e.getMessage());
         }
+    }
+
+    /**
+     * Check if the path is under Spanish content path (exact match or descendant)
+     * This ensures /content/larasoft/us/es and /content/larasoft/us/es/* match,
+     * but NOT /content/larasoft/us/es-mx (sibling paths)
+     */
+    private boolean isUnderSpanishContentPath(String path) {
+        if (path == null || spanishContentPath == null) {
+            return false;
+        }
+        // Exact match
+        if (path.equals(spanishContentPath)) {
+            return true;
+        }
+        // Descendant match (must have trailing slash)
+        return path.startsWith(spanishContentPath + "/");
     }
 
     /**
