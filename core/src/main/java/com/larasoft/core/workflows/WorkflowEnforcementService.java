@@ -33,7 +33,7 @@ import java.util.Map;
  * This service ensures that:
  * 1. Only editor-spanish group members can publish Spanish content
  * 2. Content must have an APPROVED workflow state to be published
- * 3. Content in IN_PROGRESS, REJECTED, or CHANGES_REQUESTED state cannot be published
+ * 3. Content in IN_PROGRESS or CHANGES_REQUESTED state cannot be published
  */
 @Component(
     service = EventHandler.class,
@@ -51,7 +51,6 @@ public class WorkflowEnforcementService implements EventHandler {
     private static final String WORKFLOW_STATE_PROPERTY = "workflowState";
     private static final String STATE_APPROVED = "APPROVED";
     private static final String STATE_IN_PROGRESS = "IN_PROGRESS";
-    private static final String STATE_REJECTED = "REJECTED";
     private static final String STATE_CHANGES_REQUESTED = "CHANGES_REQUESTED";
     private static final String EDITOR_SPANISH_GROUP = "editor-spanish";
     
@@ -141,13 +140,6 @@ public class WorkflowEnforcementService implements EventHandler {
                              path, userId);
                     throw new SecurityException("Cannot publish while workflow is in progress. " +
                                               "Please wait for reviewer approval.");
-                }
-                
-                if (STATE_REJECTED.equals(workflowState)) {
-                    LOG.warn("WORKFLOW VIOLATION: Blocking publish - content rejected for: {} by user: {}", 
-                             path, userId);
-                    throw new SecurityException("Cannot publish rejected content. " +
-                                              "Please review rejection comments and make necessary changes.");
                 }
                 
                 if (STATE_CHANGES_REQUESTED.equals(workflowState)) {
