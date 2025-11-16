@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0"
+    jcr:primaryType="cq:WorkflowLauncher"
+    condition="jcr:content/cq:template"
+    conditions="[]"
+    description="Automatically initiates Spanish Content Approval Workflow when new pages are created under /content/larasoft/us/es or any of its descendants. Ensures all Spanish content goes through mandatory review process before publishing."
+    disabledFeatures="[]"
+    enabled="{Boolean}true"
+    eventType="{Long}1"
+    excludeList="/content/larasoft/us/es/jcr:content.*"
+    features="[]"
+    glob="/content/larasoft/us/es(/.*)"
+    nodetype="cq:Page"
+    runModes="author"
+    workflow="/var/workflow/models/spanish-content-approval"/>

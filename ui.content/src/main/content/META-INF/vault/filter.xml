@@ -10,4 +10,5 @@
     <filter root="/content/experience-fragments/larasoft" mode="merge"/>
     <filter root="/var/workflow/models/spanish-content-approval" mode="replace"/>
     <filter root="/conf/global/settings/workflow/models/spanish-content-approval" mode="replace"/>
+    <filter root="/conf/global/settings/workflow/launcher/config/spanish-content-launcher" mode="replace"/>
 </workspaceFilter>
