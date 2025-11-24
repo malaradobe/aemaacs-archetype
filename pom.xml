@@ -90,8 +90,8 @@
 									<version>[3.3.9,)</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
-									<message>Maven must be executed with a Java 11 JRE or higher.</message>
-									<version>11</version>
+									<message>Maven must be executed with Java 21 or higher.</message>
+									<version>[21,)</version>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
@@ -103,8 +103,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 		</plugins>

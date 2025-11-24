@@ -44,6 +44,8 @@
                         <configuration>
                             <bnd><![CDATA[
 Import-Package: javax.annotation;version=0.0.0,*
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+-removeheaders: Require-Capability
                                 ]]></bnd>
                         </configuration>
                     </execution>
