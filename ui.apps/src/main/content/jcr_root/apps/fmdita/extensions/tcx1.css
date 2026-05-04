@@ -1,0 +1,138 @@
+.contents {
+    display: contents !important
+}.float-left {
+    float: left !important
+}
+.ml-\[0\.2rem\] {
+    margin-left: 0.2rem !important
+}
+.ml-\[0\.3rem\] {
+    margin-left: 0.3rem !important
+}
+.ml-\[3\.3rem\] {
+    margin-left: 3.3rem !important
+}
+.mr-\[0\.3rem\] {
+    margin-right: 0.3rem !important
+}
+.block {
+    display: block !important
+}
+.inline {
+    display: inline !important
+}
+.flex {
+    display: flex !important
+}
+.h-\[1\.2rem\] {
+    height: 1.2rem !important
+}
+.min-h-\[1rem\] {
+    min-height: 1rem !important
+}
+.w-\[1\.2rem\] {
+    width: 1.2rem !important
+}
+.min-w-\[1rem\] {
+    min-width: 1rem !important
+}
+.border-transparent {
+    border-color: transparent !important
+}
+.p-0 {
+    padding: 0px !important
+}
+.font-\[bold\] {
+    font-family: bold !important
+}
+.text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important
+}
+.text-\[color\:var\(--color\)\] {
+    color: var(--color) !important
+}
+.text-\[color\:var\(--tab-selection-color\)\] {
+    color: var(--tab-selection-color) !important
+}
+.hover\:bg-transparent:hover {
+    background-color: transparent !important
+}.mr-4 {
+    margin-right: 1rem !important
+}
+.flex {
+    display: flex !important
+}
+.bg-green-200 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(187 247 208 / var(--tw-bg-opacity)) !important
+}
+.bg-green-300 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(134 239 172 / var(--tw-bg-opacity)) !important
+}
+.bg-red-100 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(254 226 226 / var(--tw-bg-opacity)) !important
+}.float-left {
+    float: left !important
+}
+.ml-\[0\.2rem\] {
+    margin-left: 0.2rem !important
+}
+.ml-\[0\.3rem\] {
+    margin-left: 0.3rem !important
+}
+.ml-\[3\.3rem\] {
+    margin-left: 3.3rem !important
+}
+.mr-\[0\.3rem\] {
+    margin-right: 0.3rem !important
+}
+.block {
+    display: block !important
+}
+.inline {
+    display: inline !important
+}
+.flex {
+    display: flex !important
+}
+.h-\[1\.2rem\] {
+    height: 1.2rem !important
+}
+.min-h-\[1rem\] {
+    min-height: 1rem !important
+}
+.w-\[1\.2rem\] {
+    width: 1.2rem !important
+}
+.min-w-\[1rem\] {
+    min-width: 1rem !important
+}
+.border-transparent {
+    border-color: transparent !important
+}
+.p-0 {
+    padding: 0px !important
+}
+.font-\[bold\] {
+    font-family: bold !important
+}
+.text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important
+}
+.text-\[color\:var\(--color\)\] {
+    color: var(--color) !important
+}
+.text-\[color\:var\(--tab-selection-color\)\] {
+    color: var(--tab-selection-color) !important
+}
+.hover\:bg-transparent:hover {
+    background-color: transparent !important
+}.outline {
+    outline-style: solid !important
+}.table {
+    display: table !important
+}

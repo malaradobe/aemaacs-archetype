@@ -4,4 +4,5 @@
     <filter root="/apps/larasoft/components"/>
     <filter root="/apps/larasoft/i18n"/>
     <filter root="/apps/msm/larasoft_blueprint" mode="merge"/>
+    <filter root="/apps/fmdita/extensions" mode="merge"/>
 </workspaceFilter>
